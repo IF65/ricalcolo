@@ -6,11 +6,13 @@
 	use Database\Tables\Giacenzainiziale;
 	use Database\Tables\Giacenze;
 	use Database\Tables\Vendite;
+	use Database\Tables\Arrivi;
 	
 	// creazione ogetti
 	//--------------------------------------------------------------------------------
 	$giacenzeIniziali = new Giacenzainiziale($sqlDetails);
 	$giacenze = new Giacenze($sqlDetails);
+	$arrivi = new Arrivi($sqlDetails);
 	$vendite = new Vendite($sqlDetails);
 	
     // impostazioni periodo
@@ -28,6 +30,25 @@
 	// carico le giacenze iniziali
 	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 	foreach ($range as $date) {
+		print_r($date->format('Y-m-d')."\n");
+		// carico gli arrivi
+		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
+		foreach ($elencoArrivi as $codice => $arrivo) {
+			if (! key_exists($codice, $situazioni)) {
+				$situazioni[$codice] = [];
+			}
+			foreach ($arrivo as $negozio => $quantita) {
+				if (! key_exists($negozio, $situazioni)) {
+					$situazioni[$codice][$negozio] = 0;
+				}
+				
+				$situazioni[$codice][$negozio] += $quantita;
+				if ($situazioni[$codice][$negozio] == 0) {
+					unset($situazioni[$codice][$negozio]);
+				}
+			}
+		}
+		unset($elencoArrivi);
 		
 		// scarico le vendite
 		$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
