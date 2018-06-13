@@ -1,0 +1,13 @@
+{
+    "name": "if65/ricalcolo",
+    "description": "Serpentone per societa' \"no-food\" gruppo IF65",
+    "authors": [
+        {
+            "name": "Marco Gnecchi",
+            "email": "marco.gnecchi@icloud.com"
+        }
+    ],
+    "require": {
+    	"apache/log4php": "2.3.0"
+    }
+}
