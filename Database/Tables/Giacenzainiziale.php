@@ -102,8 +102,12 @@
         
         public function ricerca($record) {
              try {
-                $sql = "select codice, negozio, giacenza from $this->tableName where anno_attivo = :anno_attivo";
-                            
+                $sql = "select codice, upper(negozio) `negozio`, giacenza from $this->tableName where anno_attivo = :anno_attivo";
+                if (key_exists('codice', $record)) {
+                    $codice = $record['codice'];
+                    $sql .= " and codice = '$codice'";
+                }
+                
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute( [":anno_attivo" => $record['anno_attivo'] ] );
                 $result = $stmt->fetchall(\PDO::FETCH_ASSOC);
@@ -117,7 +121,7 @@
                         $movimenti[$record['codice']][$record['negozio']] = 0; 
                     }
                     
-                    $movimenti[$record['codice']][$record['negozio']] = $record['giacenza'];
+                    $movimenti[$record['codice']][$record['negozio']] += $record['giacenza']*1;
                 }
                 
 				return $movimenti;

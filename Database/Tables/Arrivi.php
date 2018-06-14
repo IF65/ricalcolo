@@ -22,18 +22,17 @@
 		public function creaTabella() {
         	try {
                 $sql = "CREATE TABLE IF NOT EXISTS $this->tableNameT (
-                            `id` varchar(36) NOT NULL DEFAULT '',
-                            `numero` varchar(25) NOT NULL DEFAULT '',
-                            `negozio` varchar(4) NOT NULL DEFAULT '',
-                            `data_arrivo` date NOT NULL DEFAULT '0000-00-00',
-                            `data_ddt` date NOT NULL DEFAULT '0000-00-00',
-                            `numero_ddt` varchar(20) NOT NULL DEFAULT '',
-                            `codice_fornitore` varchar(10) NOT NULL DEFAULT '',
-                            `bozza` tinyint(1) NOT NULL DEFAULT '0',
-                            `materiale_consumo` tinyint(1) NOT NULL DEFAULT '0',
-                            PRIMARY KEY (`id`),
-                            KEY `arrivo` (`negozio`,`data_arrivo`),
-                            KEY `ddt` (`data_ddt`,`numero_ddt`,`codice_fornitore`)
+                            `link` varchar(36) NOT NULL DEFAULT '',
+                            `negozio_partenza` varchar(4) NOT NULL DEFAULT '',
+                            `negozio_arrivo` varchar(4) NOT NULL DEFAULT '',
+                            `numero_ddt` varchar(13) NOT NULL DEFAULT '',
+                            `data` date NOT NULL,
+                            `fase` tinyint(1) unsigned NOT NULL DEFAULT '0',
+                            `causale` varchar(28) NOT NULL DEFAULT '',
+                            `solo_giacenze` tinyint(1) unsigned NOT NULL DEFAULT '0',
+                            PRIMARY KEY (`link`),
+                            KEY `negozio` (`negozio_partenza`,`negozio_arrivo`),
+                            KEY `ddt` (`numero_ddt`,`data`)
                         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
                 $this->pdo->exec($sql);
                 
@@ -73,14 +72,18 @@
         public function movimenti($record) {
              try {
                 $data = $record['data'];
-                $sql = "select a.`data_arrivo` `data`, r.`codice_articolo` `codice`,a.`negozio`,sum(r.`quantita`) `quantita`
+                $sql = "select a.`data_arrivo` `data`, r.`codice_articolo` `codice`,upper(a.`negozio`) `negozio`,sum(r.`quantita`) `quantita`
                         from `$this->tableNameT` as a join `$this->tableNameR` as r on a.`id`=r.`id_arrivi`
-                        where a.`data_arrivo` = '$data'
-                        group by 1,2,3";
+                        where a.`data_arrivo` = '$data'";
                 if (key_exists('negozio', $record)) {
                     $negozio = $record['negozio'];
                     $sql .= " and a.negozio = '$negozio'"; 
                 }
+                if (key_exists('codice', $record)) {
+                    $codice = $record['codice'];
+                    $sql .= " and r.codice_articolo = '$codice'";
+                }
+                $sql .= " group by 1,2,3";
                             
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
@@ -95,7 +98,7 @@
                         $movimenti[$record['codice']][$record['negozio']] = 0; 
                     }
                     
-                    $movimenti[$record['codice']][$record['negozio']] = $record['quantita'];
+                    $movimenti[$record['codice']][$record['negozio']] += $record['quantita'];
                 }
                 
 				return $movimenti;

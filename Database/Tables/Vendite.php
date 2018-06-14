@@ -155,10 +155,14 @@
         public function movimenti($record) {
              try {
                 $data = $record['data'];
-                $sql = "select data, negozio, codice, quantita from $this->tableName where data = '$data'";
+                $sql = "select data, upper(negozio) `negozio`, codice, quantita from $this->tableName where data = '$data'";
                 if (key_exists('negozio', $record)) {
                     $negozio = $record['negozio'];
                     $sql .= " and negozio = '$negozio'"; 
+                }
+                if (key_exists('codice', $record)) {
+                    $codice = $record['codice'];
+                    $sql .= " and codice = '$codice'";
                 }
                             
 				$stmt = $this->pdo->prepare($sql);
@@ -174,7 +178,7 @@
                         $movimenti[$record['codice']][$record['negozio']] = 0; 
                     }
                     
-                    $movimenti[$record['codice']][$record['negozio']] = $record['quantita'];
+                    $movimenti[$record['codice']][$record['negozio']] += $record['quantita'];
                 }
                 
 				return $movimenti;
