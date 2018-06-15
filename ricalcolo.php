@@ -33,12 +33,14 @@
 	// serpentone
 	//--------------------------------------------------------------------------------
 	
+	$giacenze->eliminaTabella();
+	$giacenze->creaTabella();
+	
 	// carico le giacenze iniziali
 	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 	foreach ($range as $date) {
 		print_r('**'.$date->format('Y-m-d')."\n");
 		
-		//print_r("  arrivi\n");
 		// carico gli arrivi
 		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
 		foreach ($elencoArrivi as $codice => $arrivo) {
@@ -51,14 +53,10 @@
 				}
 				
 				$situazioni[$codice][$negozio] += $quantita;
-				if ($situazioni[$codice][$negozio] == 0) {
-					unset($situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoArrivi);
 		
-		//print_r("  trasferimenti in\n");
 		// carico i trasferimenti in ingresso
 		$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d')]);
 		foreach ($elencoTrasferimentiIn as $codice => $trasferimento) {
@@ -71,14 +69,10 @@
 				}
 				
 				$situazioni[$codice][$negozio] += $quantita;
-				if ($situazioni[$codice][$negozio] == 0) {
-					unset($situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoTrasferimentiIn);
 		
-		//print_r("  diversi\n");
 		// carico/scarico i diversi
 		$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d')]);
 		foreach ($elencoDiversi as $codice => $diverso) {
@@ -90,14 +84,10 @@
 					$situazioni[$codice][$negozio] = 0;
 				}
 				$situazioni[$codice][$negozio] -= $quantita;
-				if ($situazioni[$codice][$negozio] == 0) {
-					unset($situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoTrasferimentiIn);
 		
-		//print_r("  trasferimenti out\n");
 		// scarico i trasferimenti in uscita
 		$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
 		foreach ($elencoTrasferimentiOut as $codice => $trasferimento) {
@@ -110,14 +100,10 @@
 				}
 				
 				$situazioni[$codice][$negozio] -= $quantita;
-				if ($situazioni[$codice][$negozio] == 0) {
-					unset($situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoTrasferimentiIn);
 		
-		//print_r("  vendite\n");
 		// scarico le vendite
 		$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
 		foreach ($elencoVendite as $codice => $vendita) {
@@ -130,9 +116,6 @@
 				}
 				
 				$situazioni[$codice][$negozio] -= $quantita;
-				if ($situazioni[$codice][$negozio] == 0) {
-					unset($situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoVendite);

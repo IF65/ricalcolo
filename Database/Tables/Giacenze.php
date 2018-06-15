@@ -135,8 +135,10 @@
                 }
                 
                 $sql = "insert into giacenze_test select g.*
-                        from giacenzeTemp  as g left join giacenze_test
-                        as t on g.`anno`=t.`anno` and g.`codice`=t.`codice` and g.`giacenza`=t.`giacenza` and g.`negozio`=t.`negozio`
+                        from giacenzeTemp as g
+                        left join (select * from (select g.anno, g.data, g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                        from giacenze_test as g where g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                        order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0')) as g) as t on g.`anno`=t.`anno` and g.`codice`=t.`codice` and g.`giacenza`=t.`giacenza` and g.`negozio`=t.`negozio`
                         where t.`anno` is null";
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
