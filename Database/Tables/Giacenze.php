@@ -30,6 +30,14 @@
                         KEY `anno` (`anno`,`codice`,`negozio`,`giacenza`)
                       ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
                 $this->pdo->exec($sql);
+                
+                $sql = "CREATE TABLE IF NOT EXISTS `giacenze_correnti` (
+                        `codice` varchar(7) NOT NULL DEFAULT '',
+                        `negozio` varchar(4) NOT NULL DEFAULT '',
+                        `giacenza` float NOT NULL DEFAULT '0',
+                        PRIMARY KEY (`codice`,`negozio`)
+                      ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+                $this->pdo->exec($sql);
 
 				return true;
             } catch (PDOException $e) {
@@ -40,6 +48,9 @@
         public function eliminaTabella() {
         	try {
                 $sql = "DROP TABLE IF EXISTS $this->tableName;";
+                $this->pdo->exec($sql);
+                
+                $sql = "DROP TABLE IF EXISTS `giacenze_correnti`;";
                 $this->pdo->exec($sql);
 
 				return true;
@@ -140,6 +151,7 @@
                         from giacenze_test as g where g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                         order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0')) as g) as t on g.`anno`=t.`anno` and g.`codice`=t.`codice` and g.`giacenza`=t.`giacenza` and g.`negozio`=t.`negozio`
                         where t.`anno` is null";
+                        
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
                 $this->pdo->commit();   
@@ -149,6 +161,15 @@
              	$this->pdo->rollBack();
                 return 1;
             }
+        }
+        
+        public function creaGiacenzeCorrenti() {
+            $sql =" insert into giacenze_correnti
+                    select g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                    from giacenze_test as g where g.anno = 2018 and g.data < CURRENT_DATE() and g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                    order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0');";
+            
+            $this->pdo->exec($sql);
         }
         public function __destruct() {
 			parent::__destruct();

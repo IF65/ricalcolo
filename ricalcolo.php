@@ -32,97 +32,99 @@
 	
 	// serpentone
 	//--------------------------------------------------------------------------------
-	
-	$giacenze->eliminaTabella();
-	$giacenze->creaTabella();
-	
-	// carico le giacenze iniziali
-	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
-	foreach ($range as $date) {
-		print_r('**'.$date->format('Y-m-d')."\n");
+		if (0) {
+		$giacenze->eliminaTabella();
+		$giacenze->creaTabella();
 		
-		// carico gli arrivi
-		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
-		foreach ($elencoArrivi as $codice => $arrivo) {
-			if (! key_exists($codice, $situazioni)) {
-				$situazioni[$codice] = [];
-			}
-			foreach ($arrivo as $negozio => $quantita) {
-				if (! key_exists($negozio, $situazioni[$codice])) {
-					$situazioni[$codice][$negozio] = 0;
+		// carico le giacenze iniziali
+		$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
+		foreach ($range as $date) {
+			print_r('**'.$date->format('Y-m-d')."\n");
+			
+			// carico gli arrivi
+			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
+			foreach ($elencoArrivi as $codice => $arrivo) {
+				if (! key_exists($codice, $situazioni)) {
+					$situazioni[$codice] = [];
 				}
-				
-				$situazioni[$codice][$negozio] += $quantita;
-			}
-		}
-		unset($elencoArrivi);
-		
-		// carico i trasferimenti in ingresso
-		$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d')]);
-		foreach ($elencoTrasferimentiIn as $codice => $trasferimento) {
-			if (! key_exists($codice, $situazioni)) {
-				$situazioni[$codice] = [];
-			}
-			foreach ($trasferimento as $negozio => $quantita) {
-				if (! key_exists($negozio, $situazioni[$codice])) {
-					$situazioni[$codice][$negozio] = 0;
+				foreach ($arrivo as $negozio => $quantita) {
+					if (! key_exists($negozio, $situazioni[$codice])) {
+						$situazioni[$codice][$negozio] = 0;
+					}
+					
+					$situazioni[$codice][$negozio] += $quantita;
 				}
-				
-				$situazioni[$codice][$negozio] += $quantita;
 			}
-		}
-		unset($elencoTrasferimentiIn);
-		
-		// carico/scarico i diversi
-		$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d')]);
-		foreach ($elencoDiversi as $codice => $diverso) {
-			if (! key_exists($codice, $situazioni)) {
-				$situazioni[$codice] = [];
-			}
-			foreach ($diverso as $negozio => $quantita) {
-				if (! key_exists($negozio, $situazioni[$codice])) {
-					$situazioni[$codice][$negozio] = 0;
+			unset($elencoArrivi);
+			
+			// carico i trasferimenti in ingresso
+			$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d')]);
+			foreach ($elencoTrasferimentiIn as $codice => $trasferimento) {
+				if (! key_exists($codice, $situazioni)) {
+					$situazioni[$codice] = [];
 				}
-				$situazioni[$codice][$negozio] -= $quantita;
-			}
-		}
-		unset($elencoTrasferimentiIn);
-		
-		// scarico i trasferimenti in uscita
-		$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
-		foreach ($elencoTrasferimentiOut as $codice => $trasferimento) {
-			if (! key_exists($codice, $situazioni)) {
-				$situazioni[$codice] = [];
-			}
-			foreach ($trasferimento as $negozio => $quantita) {
-				if (! key_exists($negozio, $situazioni[$codice])) {
-					$situazioni[$codice][$negozio] = 0;
+				foreach ($trasferimento as $negozio => $quantita) {
+					if (! key_exists($negozio, $situazioni[$codice])) {
+						$situazioni[$codice][$negozio] = 0;
+					}
+					
+					$situazioni[$codice][$negozio] += $quantita;
 				}
-				
-				$situazioni[$codice][$negozio] -= $quantita;
 			}
-		}
-		unset($elencoTrasferimentiIn);
-		
-		// scarico le vendite
-		$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
-		foreach ($elencoVendite as $codice => $vendita) {
-			if (! key_exists($codice, $situazioni)) {
-				$situazioni[$codice] = [];
-			}
-			foreach ($vendita as $negozio => $quantita) {
-				if (! key_exists($negozio, $situazioni[$codice])) {
-					$situazioni[$codice][$negozio] = 0;
+			unset($elencoTrasferimentiIn);
+			
+			// carico/scarico i diversi
+			$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d')]);
+			foreach ($elencoDiversi as $codice => $diverso) {
+				if (! key_exists($codice, $situazioni)) {
+					$situazioni[$codice] = [];
 				}
-				
-				$situazioni[$codice][$negozio] -= $quantita;
+				foreach ($diverso as $negozio => $quantita) {
+					if (! key_exists($negozio, $situazioni[$codice])) {
+						$situazioni[$codice][$negozio] = 0;
+					}
+					$situazioni[$codice][$negozio] -= $quantita;
+				}
 			}
+			unset($elencoTrasferimentiIn);
+			
+			// scarico i trasferimenti in uscita
+			$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
+			foreach ($elencoTrasferimentiOut as $codice => $trasferimento) {
+				if (! key_exists($codice, $situazioni)) {
+					$situazioni[$codice] = [];
+				}
+				foreach ($trasferimento as $negozio => $quantita) {
+					if (! key_exists($negozio, $situazioni[$codice])) {
+						$situazioni[$codice][$negozio] = 0;
+					}
+					
+					$situazioni[$codice][$negozio] -= $quantita;
+				}
+			}
+			unset($elencoTrasferimentiIn);
+			
+			// scarico le vendite
+			$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
+			foreach ($elencoVendite as $codice => $vendita) {
+				if (! key_exists($codice, $situazioni)) {
+					$situazioni[$codice] = [];
+				}
+				foreach ($vendita as $negozio => $quantita) {
+					if (! key_exists($negozio, $situazioni[$codice])) {
+						$situazioni[$codice][$negozio] = 0;
+					}
+					
+					$situazioni[$codice][$negozio] -= $quantita;
+				}
+			}
+			unset($elencoVendite);
+			
+			$giacenze->caricaSituazioni($date, $situazioni);
 		}
-		unset($elencoVendite);
-		
-		$giacenze->caricaSituazioni($date, $situazioni);
 	}
 	
-	$json = json_encode($situazioni, true);
-	file_put_contents("/Users/if65/Desktop/dati.json", $json);
+	$giacenze->creaGiacenzeCorrenti();
+	//$json = json_encode($situazioni, true);
+	//file_put_contents("/Users/if65/Desktop/dati.json", $json);
 	
