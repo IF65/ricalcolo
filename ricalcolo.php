@@ -38,7 +38,7 @@
 	// carico le giacenze iniziali
 	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 	foreach ($range as $date) {
-		//print_r('**'.$date->format('Y-m-d')."\n");
+		print_r('**'.$date->format('Y-m-d')."\n");
 		
 		// carico gli arrivi
 		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
