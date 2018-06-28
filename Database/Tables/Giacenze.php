@@ -171,6 +171,34 @@
             
             $this->pdo->exec($sql);
         }
+        
+        public function giacenzeAllaData($dataCalcolo) {
+            $sql = "select g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                    from giacenze_test as g where g.anno = 2018 and g.data <= '$dataCalcolo' group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                    order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0');";
+                    
+            try {
+                $stmt = $this->pdo->prepare($sql);
+                if ($stmt->execute()) {
+                    $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    
+                    $situazioni = [];
+                    foreach ($results as $situazione) {
+                        if (preg_match("/^\d{7}$/", $situazione['codice'])) {
+                            $situazioni[$situazione['codice']][$situazione['negozio']] = $situazione['giacenza']*1;
+                        }
+                    }
+                    unset($results);
+                    
+                    return $situazioni;
+                }
+                return null;
+            } catch (PDOException $e) {
+                print $e->getMessage();
+                return null;
+            }
+        }
+        
         public function __destruct() {
 			parent::__destruct();
         }

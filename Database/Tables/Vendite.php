@@ -152,6 +152,43 @@
             }
         }
         
+        public function esportazioneVenditeGre($dataEsportazione) {
+            $sql = "select 	r.`data`, 
+							substr(r.`ora`,1,2) `ora`,
+							s.`numero_upb`,
+							s.`numero`,
+							r.`negozio`,
+							ifnull((select e.`ean` from `ean` as e where e.`codice`=r.`codice` order by 1 desc limit 1),'2999999999999') as `ean`,
+							ma.`codice`,
+							mr.`marca`, 
+							ma.`modello`,
+							round(r.`quantita`,0) `quantita`,
+							round(case when r.`quantita` <> 0 then r.`importo_totale`/r.`quantita` else 0 end ,2) `prezzo_unitario`,
+							round(r.`importo_totale`,2) `totale`,
+							round(r.`importo_totale`*100/(100+r.`aliquota_iva`),2) `totale no iva`,
+							case when r.`quantita`>=0 then 'VEN' else 'RES' end `tipo`,
+							case when substr(s.`carta`,1,3)='043' then s.`carta` else '' end `carta`
+							from 	`marche` as mr join `magazzino` as ma on mr.`linea`=ma.`linea` join
+									`righe_vendita` as r on r.`codice`=ma.`codice` join
+									`scontrini` as s on r.`id_scontrino`=s.`id_scontrino` 
+							where mr.`invio_gre`=1 and ma.`invio_gre`=1 and r.`data`= '$dataEsportazione' and r.`riga_non_fiscale`=0 and  r.`riparazione`=0 and r.`importo_totale`<>0 and
+								r.`codice` not in ('0560440','0560459','0560468','0619218','0560477','0560486','0560495','0575504','0575513')
+							order by  r.`data`,r.`negozio`, s.`numero_upb`;";
+                            
+            try {
+                $stmt = $this->pdo->prepare($sql);
+                if ($stmt->execute()) {
+                    $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    
+                    return $results;
+                }
+                return null;
+            } catch (PDOException $e) {
+                print $e->getMessage();
+                return null;
+            }
+        }
+        
         public function movimenti($record) {
              try {
                 $data = $record['data'];
