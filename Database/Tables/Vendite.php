@@ -173,7 +173,7 @@
 									`scontrini` as s on r.`id_scontrino`=s.`id_scontrino` 
 							where mr.`invio_gre`=1 and ma.`invio_gre`=1 and r.`data`= '$dataEsportazione' and r.`riga_non_fiscale`=0 and  r.`riparazione`=0 and r.`importo_totale`<>0 and
 								r.`codice` not in ('0560440','0560459','0560468','0619218','0560477','0560486','0560495','0575504','0575513')
-							order by  r.`data`,r.`negozio`, s.`numero_upb`;";
+							order by  r.`data`,lpad(SUBSTR(r.negozio,3),2,'0'),s.`numero_upb`, ma.`codice`;";
                             
             try {
                 $stmt = $this->pdo->prepare($sql);

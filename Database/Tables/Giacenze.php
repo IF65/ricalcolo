@@ -172,10 +172,51 @@
             $this->pdo->exec($sql);
         }
         
+        public function giacenzeAllaDataGreCopre($dataCalcolo) {
+            $sql = "select
+                        g.negozio,
+                        ifnull((select e.`ean` from `db_sm`.ean as e where e.`codice`=g.`codice` order by 1 desc limit 1),'2999999999999') as `ean`, 
+                        g.codice, mr.marca  `linea`, m.modello, g.giacenza 
+                    from giacenze_test as g join 
+                        (	select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                            from giacenze_test as g where g.anno = 2018 and g.data <= '$dataCalcolo' 
+                            group by 1,2
+                        ) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data join magazzino as m on g.codice=m.codice join marche as mr on m.linea=mr.linea
+                    where m.`giacenza_bloccata` = 0 and m.`invio_gre`=1 and mr.`invio_gre` = 1 and m.linea not like 'SUPERMEDIA%' and g.giacenza <> 0
+                    order by lpad(SUBSTR(g.negozio,3),2,'0'), g.codice";
+                    
+            try {
+                $stmt = $this->pdo->prepare($sql);
+                if ($stmt->execute()) {
+                    $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    
+                    $situazioni = [];
+                    foreach ($results as $situazione) {
+                        if (preg_match("/^\d{7}$/", $situazione['codice'])) {
+                            $record = [
+                                       'giacenza' => $situazione['giacenza']*1,
+                                       'ean' => $situazione['ean'],
+                                       'linea' => $situazione['linea'],
+                                       'modello' => $situazione['modello']
+                                       ];
+                            $situazioni[$situazione['negozio']][$situazione['codice']] = $record;
+                        }
+                    }
+                    unset($results);
+                    
+                    return $situazioni;
+                }
+                return null;
+            } catch (PDOException $e) {
+                print $e->getMessage();
+                return null;
+            }
+        }
+        
         public function giacenzeAllaData($dataCalcolo) {
             $sql = "select g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
                     from giacenze_test as g where g.anno = 2018 and g.data <= '$dataCalcolo' group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
-                    order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0');";
+                    order by lpad(SUBSTR(g.negozio,3),2,'0'), g.codice;";
                     
             try {
                 $stmt = $this->pdo->prepare($sql);

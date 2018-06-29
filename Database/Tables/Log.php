@@ -94,7 +94,31 @@
                     
                     return $results;
                 }
-                return null;
+                return [];
+            } catch (PDOException $e) {
+                return [];
+            }
+        }
+        
+        public function elencoSediDaInviareGre($data) {
+             try {
+                $sql = "select n.codice_interno, c.vuoto
+                        from lavori.incarichi as i join archivi.negozi as n on n.codice=i.`negozio_codice` left join db_sm.logCaricamento as c on c.`sede`=n.`codice_interno` and c.`data`=i.`data`
+                        where i.`lavoro_codice` = 210 and i.data = '$data' and c.`sede` is not null
+                        order by lpad(substr(n.codice_interno,3),2,'0')";
+                            
+				$stmt = $this->pdo->prepare($sql);
+                if ($stmt->execute()) {
+                    $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                    
+                    $elencoNegozi = [];
+                    foreach ($results as $negozio) {
+                        $elencoNegozi[$negozio['codice_interno']] = $negozio['vuoto'];
+                    }
+                    
+                    return $elencoNegozi;
+                }
+                return [];
             } catch (PDOException $e) {
                 return [];
             }
