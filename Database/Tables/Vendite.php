@@ -152,7 +152,7 @@
             }
         }
         
-        public function esportazioneVenditeGre($dataEsportazione) {
+        public function esportazioneVenditeGreCopre($dataEsportazione) {
             $sql = "select 	r.`data`, 
 							substr(r.`ora`,1,2) `ora`,
 							s.`numero_upb`,
