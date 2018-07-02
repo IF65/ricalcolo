@@ -26,10 +26,14 @@
 
 	$dataCorrente = (new DateTime())->setTimezone($timeZone);
 	
-	$elencoDateDaInviare = $log->elencoGiornateDaInviareGre();
+	
+	
+	$elencoNegoziMancanti = $log->elencoGiornateSediMancanti('2018-07-02');
+	
+	$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
-		$elencoSediDaInviare =  $log->elencoSediDaInviareGre($dataCalcolo->format('Y-m-d'));
+		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 210);
 		
 		// invio stock
 		$vendutoAllaData = $vendite->esportazioneVenditeGreCopre($dataCalcolo->format('Y-m-d'));
@@ -73,6 +77,10 @@
 					$negozioOld = $vendita['negozio'];
 					$scontrinoOld = $vendita['numero_upb'];
 					$contatore = 1;
+					
+					if ($negozioOld != '') {
+						$log->incaricoOk($vendita['negozio'], $dataCalcolo->format('Y-m-d'), 210);
+					}
 				} else {
 					$contatore += 1;
 				}
@@ -115,8 +123,10 @@
 				$riga = '';
 				$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
 				$riga .= $vendita['ora']."|";
-				$riga .= "9999|9999|||SMW1|SUPERMEDIA|02147260174|||||||||DET|0,01|0,01|0,01|0|0|0|0|0|0|0|0|1||2999999999999|6672941|SAMSUNG|1GB EGOKIT|1|0,01|0|0,01|0,01|VEN||0\r\n";
+				$riga .= "9999|9999|||".$sede."|SUPERMEDIA|02147260174|||||||||DET|0,01|0,01|0,01|0|0|0|0|0|0|0|0|1||2999999999999|6672941|SAMSUNG|1GB EGOKIT|1|0,01|0|0,01|0,01|VEN||0\r\n";
 				$righe[] = $riga;
+				
+				$log->incaricoOk($sede, $dataCalcolo->format('Y-m-d'), 210);
 			}
 		}
 		
@@ -125,9 +135,11 @@
 		
 		
 		$giacenzeAllaData = $giacenze->giacenzeAllaDataGreCopre($dataCalcolo->format('Y-m-d'));
+		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 230); //INVIO GIACENZE COPRE=220, INVIO GIACENZE GRE=230
 		
 		$righe = [];
 		foreach($giacenzeAllaData as $codiceNegozio => $recordNegozio) {
+			
 			if (array_key_exists($codiceNegozio, $elencoSediDaInviare)) {
 				foreach($recordNegozio as $codiceArticolo => $recordArticolo) {
 					$riga = '';
@@ -143,7 +155,7 @@
 					
 					$righe[] = $riga;
 				}
-				$log->greOk($codiceNegozio, $dataCalcolo->format('Y-m-d'));
+				$log->incaricoOk($codiceNegozio, $dataCalcolo->format('Y-m-d'), 230);
 			}
 		}
 		
