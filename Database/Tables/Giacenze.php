@@ -5,7 +5,8 @@
 
 	class Giacenze extends Database {
         
-        public $tableName = 'giacenze_test';
+        public $tableName = 'giacenze';
+        public $tableRicalcolo = 'giacenzeRicalcolo';
 
         public function __construct($sqlDetails) {
         	try {
@@ -111,6 +112,23 @@
                 die($e->getMessage());
             }
         }
+        
+        public function creaTabellaGiacenzePerRicalcolo() {
+            try {
+                //elimino la tabella di ricalcolo se c'
+				$sql = "drop table if exists $this->tableRicalcolo";
+				$stmt = $this->pdo->prepare($sql);
+                $stmt->execute();
+                
+                $sql = "create table $this->tableRicalcolo like $this->tableName";
+				$stmt = $this->pdo->prepare($sql);
+                $stmt->execute();
+                
+				return true;
+            } catch (PDOException $e) {
+                die($e->getMessage());
+            }
+        }
 
         public function caricaSituazioni($data, $situazioni) {
              try {
@@ -119,25 +137,25 @@
                 $anno = $data->format('Y');
                 $giorno = $data->format('Y-m-d');
                 
-                $this->pdo->beginTransaction();
-                
                 //elimino la tabella temporanea se c'
 				$sql = "drop table if exists $tempTableName";
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
                 
+                //e ora la ricreo
                 $sql = "create table $tempTableName like $this->tableName";
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
                 
+                //creo un array con la struttura della tabella per il caricamento
                 $records = [];
-               
                 foreach ($situazioni as $codice => $dettaglio) {
                     foreach ($dettaglio as $negozio => $quantita) {
                         $records[] = '('.implode(',',[$anno, "'".$giorno."'", "'".$codice."'", "'".$negozio."'", $quantita]).')';
                     }
                 }
-
+                
+                //carico l'array a blocchi di 1000
                 while (count($records)) {
                     $toInsert = array_splice($records, 0, 1000);
                     $sql = "insert into `$tempTableName` (anno, data, codice, negozio, giacenza) values ".implode(',',$toInsert);
@@ -145,28 +163,27 @@
                     $stmt->execute();
                 }
                 
-                $sql = "insert into giacenze_test select g.*
-                        from giacenzeTemp as g
-                        left join (select * from (select g.anno, g.data, g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                        from giacenze_test as g where g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                //ora faccio la join con la tabella di ricalcolo per inserire solo i record modificati
+                $sql = "insert into $this->tableRicalcolo select g.*
+                        from `$tempTableName` as g
+                        left join (select * from (select g.anno, g.data, g.codice, g.negozio, g.giacenza from $this->tableRicalcolo as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                        from $this->tableRicalcolo as g where g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                         order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0')) as g) as t on g.`anno`=t.`anno` and g.`codice`=t.`codice` and g.`giacenza`=t.`giacenza` and g.`negozio`=t.`negozio`
                         where t.`anno` is null";
                         
                 $stmt = $this->pdo->prepare($sql);
-                $stmt->execute();
-                $this->pdo->commit();   
+                $stmt->execute(); 
 				
-                return 0;
             } catch (PDOException $e) {
-             	$this->pdo->rollBack();
-                return 1;
+                //se c' un errore blocco tutto
+             	die($e->getMessage());
             }
         }
         
         public function creaGiacenzeCorrenti() {
             $sql =" insert into giacenze_correnti
-                    select g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                    from giacenze_test as g where g.anno = 2018 and g.data < CURRENT_DATE() and g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                    select g.codice, g.negozio, g.giacenza from $this->tableName as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                    from $this->tableName as g where g.anno = 2018 and g.data < CURRENT_DATE() and g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                     order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0');";
             
             $this->pdo->exec($sql);
@@ -177,9 +194,9 @@
                         g.negozio,
                         ifnull((select e.`ean` from `db_sm`.ean as e where e.`codice`=g.`codice` order by 1 desc limit 1),'2999999999999') as `ean`, 
                         g.codice, mr.marca  `linea`, m.modello, g.giacenza 
-                    from giacenze_test as g join 
+                    from $this->tableName as g join 
                         (	select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                            from giacenze_test as g where g.anno = 2018 and g.data <= '$dataCalcolo' 
+                            from $this->tableName as g where g.anno = 2018 and g.data <= '$dataCalcolo' 
                             group by 1,2
                         ) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data join magazzino as m on g.codice=m.codice join marche as mr on m.linea=mr.linea
                     where m.`giacenza_bloccata` = 0 and m.`invio_gre`=1 and mr.`invio_gre` = 1 and m.linea not like 'SUPERMEDIA%' and g.giacenza <> 0
@@ -214,8 +231,8 @@
         }
         
         public function giacenzeAllaData($dataCalcolo) {
-            $sql = "select g.codice, g.negozio, g.giacenza from giacenze_test as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                    from giacenze_test as g where g.anno = 2018 and g.data <= '$dataCalcolo' group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+            $sql = "select g.codice, g.negozio, g.giacenza from $this->tableName as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
+                    from $this->tableName as g where g.anno = 2018 and g.data <= '$dataCalcolo' group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                     order by lpad(SUBSTR(g.negozio,3),2,'0'), g.codice;";
                     
             try {
@@ -237,6 +254,20 @@
             } catch (PDOException $e) {
                 print $e->getMessage();
                 return null;
+            }
+        }
+        
+        public function eliminaTabellaTemporanea() {
+        	try {
+                $sql = "DROP TABLE IF EXISTS $this->tableName;";
+                $this->pdo->exec($sql);
+                
+                $sql = "DROP TABLE IF EXISTS `giacenze_correnti`;";
+                $this->pdo->exec($sql);
+
+				return true;
+            } catch (PDOException $e) {
+                die($e->getMessage());
             }
         }
         
