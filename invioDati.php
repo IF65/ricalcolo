@@ -26,10 +26,6 @@
 
 	$dataCorrente = (new DateTime())->setTimezone($timeZone);
 	
-	
-	
-	$elencoNegoziMancanti = $log->elencoGiornateSediMancanti('2018-07-02');
-	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
@@ -132,10 +128,13 @@
 		
 		$nome_file = 'SO_02147260174_SM_'.$dataCalcolo->format('Ymd').'.txt';
 		file_put_contents("$cartellaDiInvio/$nome_file", $righe);
-		
-		
+	}
+	
+	$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //INVIO GIACENZE COPRE=220, INVIO GIACENZE GRE=230
+	foreach($elencoDateDaInviare as $dataDaInviare) {
+		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
 		$giacenzeAllaData = $giacenze->giacenzeAllaDataGreCopre($dataCalcolo->format('Y-m-d'));
-		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 230); //INVIO GIACENZE COPRE=220, INVIO GIACENZE GRE=230
+		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 230); 
 		
 		$righe = [];
 		foreach($giacenzeAllaData as $codiceNegozio => $recordNegozio) {
