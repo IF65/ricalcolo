@@ -125,6 +125,8 @@
 		
 		$giacenze->creaGiacenzeCorrenti();
 	}
+	$giacenze->eliminaTabelleTemporaneeeRicalcolo();
+	
 	//$json = json_encode($situazioni, true);
 	//file_put_contents("/Users/if65/Desktop/dati.json", $json);
 	

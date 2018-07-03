@@ -129,6 +129,20 @@
                 die($e->getMessage());
             }
         }
+        
+        public function eliminaTabelleTemporaneeeRicalcolo() {
+            try {
+                $sql = "DROP TABLE IF EXISTS $this->tableName;";
+                $this->pdo->exec($sql);
+                
+                $sql = "RENAME TABLE $this->tableRicalcolo TO $this->tableName;";
+                $this->pdo->exec($sql);
+                
+                return true;
+            } catch (PDOException $e) {
+                die($e->getMessage());
+            }
+        }
 
         public function caricaSituazioni($data, $situazioni) {
              try {
@@ -159,7 +173,7 @@
                 while (count($records)) {
                     $toInsert = array_splice($records, 0, 1000);
                     $sql = "insert into `$tempTableName` (anno, data, codice, negozio, giacenza) values ".implode(',',$toInsert);
-                    $stmt = $this->pdo->prepare($sql);
+                    file_put_contents("/Users/if65/Desktop/query.sql", $sql);
                     $stmt->execute();
                 }
                 
