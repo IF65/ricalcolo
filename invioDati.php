@@ -2,6 +2,32 @@
 	@ini_set('memory_limit','1024M');
 	
 	include(__DIR__.'/Database/bootstrap.php');
+	include(__DIR__.'/vendor/apache/log4php/src/main/php/Logger.php');
+	
+	$logConfig = [
+					'appenders' => [
+										'default' => [
+														'class' => 'LoggerAppenderPDO',
+														'params' => [
+																		'dsn' => 'mysql:host=10.11.14.78;dbname=log',
+																		'user' => 'root',
+																		'password' => 'mela',
+																		'table' => 'logPhpScript',
+																	],
+													],
+									],
+					'rootLogger' => [
+										'level' => 'debug',
+										'appenders' => [
+															'default'
+														],
+									],
+				];
+	
+	Logger::configure($logConfig);
+	$logger = Logger::getLogger("invioDati");
+  
+	$logger->info("Inizio procedura di invio dati a Gre/Copre.");
 
 	use Database\Tables\Giacenze;
 	use Database\Tables\Vendite;
@@ -19,6 +45,7 @@
 	$giacenze = new Giacenze($sqlDetails);
 	$vendite = new Vendite($sqlDetails);
 	$log = new Log($sqlDetails);
+	$logger->info("Oggetti creati.");
 	
     // impostazioni periodo
 	//--------------------------------------------------------------------------------
@@ -27,12 +54,12 @@
 	$dataCorrente = (new DateTime())->setTimezone($timeZone);
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
+	$logger->info("(210) INVIO VENDITE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
 		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 210);
-		
-		// invio stock
 		$vendutoAllaData = $vendite->esportazioneVenditeGreCopre($dataCalcolo->format('Y-m-d'));
+		$logger->info('(210) '.$dataCalcolo->format('Y-m-d').', sedi: '.count($elencoSediDaInviare));
 		
 		$negozioOld = '';
 		$scontrinoOld = 0;
@@ -67,16 +94,19 @@
 		foreach ($vendutoAllaData as $vendita) {
 			if (array_key_exists($vendita['negozio'], $elencoSediDaInviare)) {
 				$riga = '';
-				
 				// sistemo i contatori
 				if ($negozioOld != $vendita['negozio'] or $scontrinoOld  != $vendita['numero_upb']) {
+					if ($negozioOld != '' && $negozioOld != $vendita['negozio']) {
+						$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', negozio inviato: '.$negozioOld.', vendite: '.$contatore);
+					}
+					
+					if ($negozioOld != $vendita['negozio']) {
+						$log->incaricoOk($vendita['negozio'], $dataCalcolo->format('Y-m-d'), 210);
+					}
+					
 					$negozioOld = $vendita['negozio'];
 					$scontrinoOld = $vendita['numero_upb'];
 					$contatore = 1;
-					
-					if ($negozioOld != '') {
-						$log->incaricoOk($vendita['negozio'], $dataCalcolo->format('Y-m-d'), 210);
-					}
 				} else {
 					$contatore += 1;
 				}
@@ -112,6 +142,9 @@
 				$righe[] = $riga;
 			}
 		}
+		if ($negozioOld != '') {
+			$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', negozio inviato: '.$negozioOld.', vendite: '.$contatore);
+		}
 		
 		// ha valore 1 se la giornata  vuota
 		foreach ($elencoSediDaInviare as $sede => $vuota) {
@@ -123,23 +156,29 @@
 				$righe[] = $riga;
 				
 				$log->incaricoOk($sede, $dataCalcolo->format('Y-m-d'), 210);
+				$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', negozio inviato: '.$sede.', vendite: 0');
 			}
 		}
 		
 		$nome_file = 'SO_02147260174_SM_'.$dataCalcolo->format('Ymd').'.txt';
 		file_put_contents("$cartellaDiInvio/$nome_file", $righe);
+		$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', file inviato');
 	}
 	
-	$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //INVIO GIACENZE COPRE=220, INVIO GIACENZE GRE=230
+	$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //220 = INVIO GIACENZE COPRE, 230 = INVIO GIACENZE GRE
+	$logger->info("(230) INVIO GIACENZE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
 		$giacenzeAllaData = $giacenze->giacenzeAllaDataGreCopre($dataCalcolo->format('Y-m-d'));
 		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 230); 
+		$logger->info('(230) '.$dataCalcolo->format('Y-m-d').', sedi: '.count($elencoSediDaInviare) );
 		
 		$righe = [];
 		foreach($giacenzeAllaData as $codiceNegozio => $recordNegozio) {
 			
+			
 			if (array_key_exists($codiceNegozio, $elencoSediDaInviare)) {
+				$logger->debug('(230) '.$dataCalcolo->format('Y-m-d').', invio negozio: '.$codiceNegozio.', articoli: '.count($recordNegozio));
 				foreach($recordNegozio as $codiceArticolo => $recordArticolo) {
 					$riga = '';
 					//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
@@ -160,6 +199,7 @@
 		
 		$nome_file = 'ST_02147260174_SM_'.$dataCalcolo->format('Ymd').'.txt';
 		file_put_contents("$cartellaDiInvio/$nome_file", $righe);
+		$logger->debug('(230) '.$dataCalcolo->format('Y-m-d').', file inviato');
 		
 		// creazione semaforo verde
 		touch("$cartellaDiInvio/CO_02147260174_SM.txt");
