@@ -173,6 +173,7 @@
                 while (count($records)) {
                     $toInsert = array_splice($records, 0, 1000);
                     $sql = "insert into `$tempTableName` (anno, data, codice, negozio, giacenza) values ".implode(',',$toInsert);
+                    $stmt = $this->pdo->prepare($sql);
                     $stmt->execute();
                 }
                 
