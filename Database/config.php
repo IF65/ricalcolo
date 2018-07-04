@@ -11,7 +11,7 @@ $sqlDetails = array(
 	"port" 		=> "",
 	"db"   		=> "db_sm",
 	"dsn" 		=> "",
-	"pdoAttr" 	=> array()
+	"pdoAttr" 	=> []
 );
 
 ?>

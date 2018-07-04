@@ -2,6 +2,33 @@
 	@ini_set('memory_limit','1024M');
 	
 	include(__DIR__.'/Database/bootstrap.php');
+	include(__DIR__.'/vendor/apache/log4php/src/main/php/Logger.php');
+	
+	$logConfig = [
+					'appenders' => [
+										'default' => [
+														'class' => 'LoggerAppenderPDO',
+														'params' => [
+																		'dsn' => 'mysql:host=10.11.14.78;dbname=log',
+																		'user' => 'root',
+																		'password' => 'mela',
+																		'table' => 'logPhpScript',
+																	],
+													],
+									],
+					'rootLogger' => [
+										'level' => 'debug',
+										'appenders' => [
+															'default'
+														],
+									],
+				];
+	
+	//Logger::configure(__DIR__.'/Database/config.xml');
+	Logger::configure($logConfig);
+	$logger = Logger::getLogger("ricalcolo");
+  
+	$logger->info("Inizio procedura ricalcolo.");
 	
 	use Database\Tables\Giacenzainiziale;
 	use Database\Tables\Giacenze;
@@ -20,6 +47,7 @@
 	$trasferimentiIn = new Trasferimentiin($sqlDetails);
 	$trasferimentiOut = new Trasferimentiout($sqlDetails);
 	$diversi = new Diversi($sqlDetails);
+	$logger->debug("Oggetti creati.");
 
     // impostazioni periodo
 	//--------------------------------------------------------------------------------
@@ -32,14 +60,12 @@
 	
 	// serpentone
 	//--------------------------------------------------------------------------------
-	//$giacenze->eliminaTabella();
-	//$giacenze->creaTabella();
-
+	$logger->debug("Inizio serpentone.");
 	if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		// carico le giacenze iniziali
 		$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 		foreach ($range as $date) {
-			print_r('**'.$date->format('Y-m-d')."\n");
+			$logger->info($date->format('Y-m-d'));
 			
 			// carico gli arrivi
 			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
@@ -55,6 +81,7 @@
 					$situazioni[$codice][$negozio] += $quantita;
 				}
 			}
+			$logger->debug($date->format('Y-m-d').', arrivi: '.count($elencoArrivi));
 			unset($elencoArrivi);
 			
 			// carico i trasferimenti in ingresso
@@ -71,6 +98,7 @@
 					$situazioni[$codice][$negozio] += $quantita;
 				}
 			}
+			$logger->debug($date->format('Y-m-d').', trasf.in: '.count($elencoTrasferimentiIn));
 			unset($elencoTrasferimentiIn);
 			
 			// carico/scarico i diversi
@@ -86,7 +114,8 @@
 					$situazioni[$codice][$negozio] -= $quantita;
 				}
 			}
-			unset($elencoTrasferimentiIn);
+			$logger->debug($date->format('Y-m-d').', diversi: '.count($elencoDiversi));
+			unset($elencoDiversi);
 			
 			// scarico i trasferimenti in uscita
 			$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
@@ -102,7 +131,8 @@
 					$situazioni[$codice][$negozio] -= $quantita;
 				}
 			}
-			unset($elencoTrasferimentiIn);
+			$logger->debug($date->format('Y-m-d').', trasf.out: '.count($elencoTrasferimentiOut));
+			unset($elencoTrasferimentiOut);
 			
 			// scarico le vendite
 			$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
@@ -118,15 +148,19 @@
 					$situazioni[$codice][$negozio] -= $quantita;
 				}
 			}
+			$logger->debug($date->format('Y-m-d').', vendite: '.count($elencoVendite));
 			unset($elencoVendite);
 			
 			$giacenze->caricaSituazioni($date, $situazioni);
+			$logger->debug($date->format('Y-m-d').', situazioni caricate.');
 		}
-		
 		$giacenze->creaGiacenzeCorrenti();
+		$logger->debug('giacenze correnti create');
 	}
 	$giacenze->eliminaTabelleTemporaneeeRicalcolo();
-
+	$logger->debug('tabelle eliminate/rinominate');
+	
+	$logger->info("Fine procedura ricalcolo.");
 	//$json = json_encode($situazioni, true);
 	//file_put_contents("/Users/if65/Desktop/dati.json", $json);
 	
