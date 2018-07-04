@@ -173,7 +173,6 @@
                 while (count($records)) {
                     $toInsert = array_splice($records, 0, 1000);
                     $sql = "insert into `$tempTableName` (anno, data, codice, negozio, giacenza) values ".implode(',',$toInsert);
-                    file_put_contents("/Users/if65/Desktop/query.sql", $sql);
                     $stmt->execute();
                 }
                 

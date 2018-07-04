@@ -1,8 +1,8 @@
 <?php
-	@ini_set('memory_limit','256M');
+	@ini_set('memory_limit','1024M');
 	
 	include(__DIR__.'/Database/bootstrap.php');
-
+	
 	use Database\Tables\Giacenzainiziale;
 	use Database\Tables\Giacenze;
 	use Database\Tables\Vendite;
@@ -10,7 +10,7 @@
 	use Database\Tables\Trasferimentiin;
 	use Database\Tables\Trasferimentiout;
 	use Database\Tables\Diversi;
-	
+
 	// creazione ogetti
 	//--------------------------------------------------------------------------------
 	$giacenzeIniziali = new Giacenzainiziale($sqlDetails);
@@ -20,7 +20,7 @@
 	$trasferimentiIn = new Trasferimentiin($sqlDetails);
 	$trasferimentiOut = new Trasferimentiout($sqlDetails);
 	$diversi = new Diversi($sqlDetails);
-	
+
     // impostazioni periodo
 	//--------------------------------------------------------------------------------
     $timeZone = new DateTimeZone('Europe/Rome');
@@ -34,12 +34,12 @@
 	//--------------------------------------------------------------------------------
 	//$giacenze->eliminaTabella();
 	//$giacenze->creaTabella();
-	
+
 	if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		// carico le giacenze iniziali
 		$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 		foreach ($range as $date) {
-			//print_r('**'.$date->format('Y-m-d')."\n");
+			print_r('**'.$date->format('Y-m-d')."\n");
 			
 			// carico gli arrivi
 			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
@@ -126,7 +126,7 @@
 		$giacenze->creaGiacenzeCorrenti();
 	}
 	$giacenze->eliminaTabelleTemporaneeeRicalcolo();
-	
+
 	//$json = json_encode($situazioni, true);
 	//file_put_contents("/Users/if65/Desktop/dati.json", $json);
 	
