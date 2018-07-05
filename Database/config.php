@@ -7,11 +7,11 @@ ini_set('display_errors', '1');
 $sqlDetails = array(
 	"user" 		=> "root",
 	"password" 	=> "mela",
-	"host" 		=> "10.11.14.78",
+	"host" 		=> "127.0.0.1",
 	"port" 		=> "",
 	"db"   		=> "db_sm",
 	"dsn" 		=> "",
-	"pdoAttr" 	=> array()
+	"pdoAttr" 	=> []
 );
 
 ?>
