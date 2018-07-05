@@ -97,11 +97,14 @@
 				// sistemo i contatori
 				if ($negozioOld != $vendita['negozio'] or $scontrinoOld  != $vendita['numero_upb']) {
 					if ($negozioOld != '' && $negozioOld != $vendita['negozio']) {
-						$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', negozio inviato: '.$negozioOld.', vendite: '.$contatore);
+						
 					}
 					
 					if ($negozioOld != $vendita['negozio']) {
-						$log->incaricoOk($vendita['negozio'], $dataCalcolo->format('Y-m-d'), 210);
+						$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', vendite negozio inviate: '.$negozioOld);
+						if (! $log->incaricoOk($vendita['negozio'], $dataCalcolo->format('Y-m-d'), 210)) {
+							$logger->warn('(210) '.$dataCalcolo->format('Y-m-d').', flag inviate vendite negozio non impostato: '.$negozioOld);
+						}
 					}
 					
 					$negozioOld = $vendita['negozio'];
@@ -178,7 +181,7 @@
 			
 			
 			if (array_key_exists($codiceNegozio, $elencoSediDaInviare)) {
-				$logger->debug('(230) '.$dataCalcolo->format('Y-m-d').', invio negozio: '.$codiceNegozio.', articoli: '.count($recordNegozio));
+				$logger->debug('(230) '.$dataCalcolo->format('Y-m-d').', invio stock negozio: '.$codiceNegozio.', articoli: '.count($recordNegozio));
 				foreach($recordNegozio as $codiceArticolo => $recordArticolo) {
 					$riga = '';
 					//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
@@ -193,7 +196,9 @@
 					
 					$righe[] = $riga;
 				}
-				$log->incaricoOk($codiceNegozio, $dataCalcolo->format('Y-m-d'), 230);
+				if ( ! $log->incaricoOk($codiceNegozio, $dataCalcolo->format('Y-m-d'), 230) ) {
+					$logger->warn('(230) '.$dataCalcolo->format('Y-m-d').', flag inviato stock negozio non impostato: '.$codiceNegozio);
+				}
 			}
 		}
 		
