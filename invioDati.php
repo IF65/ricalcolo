@@ -145,9 +145,6 @@
 				$righe[] = $riga;
 			}
 		}
-		if ($negozioOld != '') {
-			$logger->debug('(210) '.$dataCalcolo->format('Y-m-d').', negozio inviato: '.$negozioOld.', vendite: '.$contatore);
-		}
 		
 		// ha valore 1 se la giornata  vuota
 		foreach ($elencoSediDaInviare as $sede => $vuota) {
