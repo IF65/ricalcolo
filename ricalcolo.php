@@ -29,6 +29,7 @@
 	$logger = Logger::getLogger("ricalcolo");
   
 	$logger->info("Inizio procedura ricalcolo.");
+	sleep(3);
 	
 	use Database\Tables\Giacenzainiziale;
 	use Database\Tables\Giacenze;
@@ -48,7 +49,8 @@
 	$trasferimentiOut = new Trasferimentiout($sqlDetails);
 	$diversi = new Diversi($sqlDetails);
 	$logger->debug("Oggetti creati.");
-
+	sleep(3);
+	
     // impostazioni periodo
 	//--------------------------------------------------------------------------------
     $timeZone = new DateTimeZone('Europe/Rome');
@@ -61,6 +63,7 @@
 	// serpentone
 	//--------------------------------------------------------------------------------
 	$logger->info("Inizio serpentone.");
+	sleep(3);
 	if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		// carico le giacenze iniziali
 		$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
