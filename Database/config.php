@@ -1,6 +1,6 @@
 <?php
 
-// (ITM78) Attiva la visualizzazione degli errori in fase di debug (rimuovere in produzione)
+// (DEBUG) Attiva la visualizzazione degli errori in fase di debug (rimuovere in produzione)
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
