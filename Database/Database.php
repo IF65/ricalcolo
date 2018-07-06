@@ -10,7 +10,7 @@
         public function __construct($sqlDetails) {
             $conStr = sprintf("mysql:host=%s", $sqlDetails['host']);
             try {
-                $this->pdo = new PDO($conStr, $sqlDetails['user'], $sqlDetails['password']);
+            	$this->pdo = new PDO($conStr, $sqlDetails['user'], $sqlDetails['password']);
 
                 self::createDatabase($sqlDetails['db']);
 

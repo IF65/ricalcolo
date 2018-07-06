@@ -17,7 +17,7 @@
 													],
 									],
 					'rootLogger' => [
-										'level' => 'debug',
+										'level' => 'info',
 										'appenders' => [
 															'default'
 														],
@@ -60,7 +60,7 @@
 	
 	// serpentone
 	//--------------------------------------------------------------------------------
-	$logger->debug("Inizio serpentone.");
+	$logger->info("Inizio serpentone.");
 	if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		// carico le giacenze iniziali
 		$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
@@ -155,7 +155,7 @@
 			$logger->debug($date->format('Y-m-d').', situazioni caricate.');
 		}
 		$giacenze->creaGiacenzeCorrenti();
-		$logger->debug('giacenze correnti create');
+		$logger->info('giacenze correnti create');
 	}
 	$giacenze->eliminaTabelleTemporaneeeRicalcolo();
 	$logger->debug('tabelle eliminate/rinominate');
