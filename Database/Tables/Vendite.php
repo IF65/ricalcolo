@@ -192,7 +192,7 @@
         public function movimenti($record) {
              try {
                 $data = $record['data'];
-                $sql = "select data, upper(negozio) `negozio`, codice, quantita from $this->tableName where data = '$data'";
+                $sql = "select data, upper(negozio) `negozio`, codice, quantita from $this->tableName where data = '$data' and riga_non_fiscale=0 and  riparazione=0 and importo_totale<>0";
                 if (key_exists('negozio', $record)) {
                     $negozio = $record['negozio'];
                     $sql .= " and negozio = '$negozio'"; 
