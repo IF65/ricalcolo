@@ -197,7 +197,7 @@
         public function creaGiacenzeCorrenti() {
             $sql =" insert into giacenze_correnti
                     select g.codice, g.negozio, g.giacenza from $this->tableName as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                    from $this->tableName as g where g.anno = 2018 and g.data < CURRENT_DATE() and g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                    from $this->tableName as g where g.anno = 2019 and g.data < CURRENT_DATE() and g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                     order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0');";
             
             $this->pdo->exec($sql);
@@ -210,7 +210,7 @@
                         g.codice, mr.marca  `linea`, m.modello, g.giacenza 
                     from $this->tableName as g join 
                         (	select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                            from $this->tableName as g where g.anno = 2018 and g.data <= '$dataCalcolo' 
+                            from $this->tableName as g where g.anno = 2019 and g.data <= '$dataCalcolo' 
                             group by 1,2
                         ) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data join magazzino as m on g.codice=m.codice join marche as mr on m.linea=mr.linea
                     where m.`giacenza_bloccata` = 0 and m.`invio_gre`=1 and mr.`invio_gre` = 1 and m.linea not like 'SUPERMEDIA%' and g.giacenza <> 0
@@ -246,7 +246,7 @@
         
         public function giacenzeAllaData($dataCalcolo) {
             $sql = "select g.codice, g.negozio, g.giacenza from $this->tableName as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
-                    from $this->tableName as g where g.anno = 2018 and g.data <= '$dataCalcolo' group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
+                    from $this->tableName as g where g.anno = 2019 and g.data <= '$dataCalcolo' group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                     order by lpad(SUBSTR(g.negozio,3),2,'0'), g.codice;";
                     
             try {

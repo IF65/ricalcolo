@@ -54,6 +54,7 @@
 	$dataCorrente = (new DateTime())->setTimezone($timeZone);
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
+	//$elencoDateDaInviare = [['data' => '2019-03-24']]; //<-----------------------------------------------------------------------
 	$logger->info("(210) INVIO VENDITE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
@@ -166,6 +167,7 @@
 	}
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //220 = INVIO GIACENZE COPRE, 230 = INVIO GIACENZE GRE
+	//$elencoDateDaInviare = [['data' => '2019-03-24']]; //<-----------------------------------------------------------------------
 	$logger->info("(230) INVIO GIACENZE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
