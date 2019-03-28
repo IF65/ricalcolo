@@ -55,11 +55,11 @@
 	//--------------------------------------------------------------------------------
     $timeZone = new DateTimeZone('Europe/Rome');
 
-	$end = new DateTime();
+	$end = (new DateTime())->sub(new DateInterval('P1D'));
 	$start = new DateTime('January 1, '.$end->format('Y'));
 	$interval = new DateInterval('P1D');
 	$range = new DatePeriod($start, $interval, $end);
-	
+
 	// serpentone
 	//--------------------------------------------------------------------------------
 	$logger->info("Inizio serpentone.");
