@@ -115,7 +115,7 @@
         
         public function creaTabellaGiacenzePerRicalcolo() {
             try {
-                //elimino la tabella di ricalcolo se c'
+                //elimino la tabella di ricalcolo se c'?
 				$sql = "drop table if exists $this->tableRicalcolo";
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
@@ -151,7 +151,7 @@
                 $anno = $data->format('Y');
                 $giorno = $data->format('Y-m-d');
                 
-                //elimino la tabella temporanea se c'
+                //elimino la tabella temporanea se c'?
 				$sql = "drop table if exists $tempTableName";
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute();
@@ -189,12 +189,26 @@
                 $stmt->execute(); 
 				
             } catch (PDOException $e) {
-                //se c' un errore blocco tutto
+                //se c'? un errore blocco tutto
              	die($e->getMessage());
             }
         }
         
         public function creaGiacenzeCorrenti() {
+            //elimino la tabella temporanea se c'?
+            $sql = "drop table if exists giacenze_correnti";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+
+            $sql = "CREATE TABLE `giacenze_correnti` (
+                      `codice` varchar(7) NOT NULL DEFAULT '',
+                      `negozio` varchar(4) NOT NULL DEFAULT '',
+                      `giacenza` float NOT NULL DEFAULT '0',
+                      PRIMARY KEY (`codice`,`negozio`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+
             $sql =" insert into giacenze_correnti
                     select g.codice, g.negozio, g.giacenza from $this->tableName as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
                     from $this->tableName as g where g.anno = 2019 and g.data < CURRENT_DATE() and g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data

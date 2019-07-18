@@ -32,6 +32,7 @@
 	use Database\Tables\Giacenze;
 	use Database\Tables\Vendite;
 	use Database\Tables\Log;
+	use Database\Views\Barcode;
 	
 	// creazione cartelle
 	//--------------------------------------------------------------------------------
@@ -44,6 +45,7 @@
 	//--------------------------------------------------------------------------------
 	$giacenze = new Giacenze($sqlDetails);
 	$vendite = new Vendite($sqlDetails);
+	$barcodeCopre = new Barcode($sqlDetails);
 	$log = new Log($sqlDetails);
 	$logger->info("Oggetti creati.");
 	
@@ -52,9 +54,11 @@
     $timeZone = new DateTimeZone('Europe/Rome');
 
 	$dataCorrente = (new DateTime())->setTimezone($timeZone);
+
+	$elencoBarcodeCopre = $barcodeCopre->creaElenco();
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
-	//$elencoDateDaInviare = [['data' => '2019-03-24']]; //<-----------------------------------------------------------------------
+    $elencoDateDaInviare = [['data' => '2019-05-24'],['data' => '2019-05-25'],['data' => '2019-05-26'],['data' => '2019-05-27']];  //<-----------------------------------------------------------------------
 	$logger->info("(210) INVIO VENDITE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
@@ -123,6 +127,12 @@
 						$totaleNoIva = $totali[$vendita['negozio']][$vendita['numero_upb']]['totale no iva'];
 					}
 				}
+
+				// inserisco il barcode principale di copre
+                $mainBarcode = $vendita['ean'];
+                if (key_exists( $vendita['codice'], $elencoBarcodeCopre)) {
+                    $mainBarcode = $elencoBarcodeCopre[$vendita['codice']];
+                }
 				//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
 				$riga .= $dataCorrente->format('dmY 00:00').'|'.$dataCalcolo->format('dmY').'|';
 				$riga .= $vendita['ora']."|";
@@ -133,7 +143,7 @@
 				$riga .= number_format($totaleNoIva,2,',','')."|";
 				$riga .= number_format($totale,2,',','')."|0|0|0|0|0|0|0|0|";
 				$riga .= "$contatore||";
-				$riga .= $vendita['ean']."|";
+				$riga .= $mainBarcode."|";
 				$riga .= $vendita['codice']."|";
 				$riga .= $vendita['marca']."|";
 				$riga .= $vendita['modello']."|";
@@ -147,7 +157,7 @@
 			}
 		}
 		
-		// ha valore 1 se la giornata  vuota
+		// ha valore 1 se la giornata ï¿½ vuota
 		foreach ($elencoSediDaInviare as $sede => $vuota) {
 			if ($vuota) {
 				$riga = '';
@@ -167,7 +177,7 @@
 	}
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //220 = INVIO GIACENZE COPRE, 230 = INVIO GIACENZE GRE
-	//$elencoDateDaInviare = [['data' => '2019-03-24']]; //<-----------------------------------------------------------------------
+	$elencoDateDaInviare = [['data' => '2019-05-24'],['data' => '2019-05-25'],['data' => '2019-05-26'],['data' => '2019-05-27']]; //<-----------------------------------------------------------------------
 	$logger->info("(230) INVIO GIACENZE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
@@ -182,12 +192,19 @@
 			if (array_key_exists($codiceNegozio, $elencoSediDaInviare)) {
 				$logger->debug('(230) '.$dataCalcolo->format('Y-m-d').', invio stock negozio: '.$codiceNegozio.', articoli: '.count($recordNegozio));
 				foreach($recordNegozio as $codiceArticolo => $recordArticolo) {
+
+                    // inserisco il barcode principale di copre
+                    $mainBarcode = $recordArticolo['ean'];
+                    if (key_exists( $codiceArticolo, $elencoBarcodeCopre)) {
+                        $mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
+                    }
+
 					$riga = '';
 					//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
 					$riga .= $dataCorrente->format('dmY 00:00').'|'.$dataCalcolo->format('dmY').'|';
 					$riga .= 'SUPERMEDIA|02147260174|';
 					$riga .= $codiceNegozio."||";
-					$riga .= $recordArticolo['ean']."|";
+					$riga .= $mainBarcode."|";
 					$riga .= $codiceArticolo."|";
 					$riga .= $recordArticolo['linea']."|";
 					$riga .= $recordArticolo['modello']."|";

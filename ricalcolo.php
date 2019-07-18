@@ -73,7 +73,7 @@
 			// carico gli arrivi
 			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
 			foreach ($elencoArrivi as $codice => $arrivo) {
-				if (! key_exists($codice, $situazioni)) {
+			    if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
 				}
 				foreach ($arrivo as $negozio => $quantita) {
@@ -90,7 +90,7 @@
 			// carico i trasferimenti in ingresso
 			$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d')]);
 			foreach ($elencoTrasferimentiIn as $codice => $trasferimento) {
-				if (! key_exists($codice, $situazioni)) {
+                if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
 				}
 				foreach ($trasferimento as $negozio => $quantita) {
@@ -107,7 +107,7 @@
 			// carico/scarico i diversi
 			$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d')]);
 			foreach ($elencoDiversi as $codice => $diverso) {
-				if (! key_exists($codice, $situazioni)) {
+                if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
 				}
 				foreach ($diverso as $negozio => $quantita) {
@@ -123,7 +123,7 @@
 			// scarico i trasferimenti in uscita
 			$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
 			foreach ($elencoTrasferimentiOut as $codice => $trasferimento) {
-				if (! key_exists($codice, $situazioni)) {
+                if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
 				}
 				foreach ($trasferimento as $negozio => $quantita) {
@@ -140,7 +140,7 @@
 			// scarico le vendite
 			$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
 			foreach ($elencoVendite as $codice => $vendita) {
-				if (! key_exists($codice, $situazioni)) {
+                if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
 				}
 				foreach ($vendita as $negozio => $quantita) {
