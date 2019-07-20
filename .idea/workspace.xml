@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Database/Views/Barcode.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +22,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/Tables/Arrivi.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="1305">
               <caret line="87" selection-start-line="87" selection-end-line="87" />
             </state>
           </provider>
@@ -34,17 +31,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ricalcolo.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
+            <state relative-caret-position="428">
               <caret line="159" column="39" selection-start-line="159" selection-start-column="19" selection-end-line="159" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/invioDati.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="471">
+              <caret line="212" column="39" selection-start-line="212" selection-start-column="29" selection-end-line="212" selection-end-column="39" />
+              <folding>
+                <element signature="e#814#843#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Database/Tables/Trasferimentiin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Database/Tables/Log.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="35" column="39" lean-forward="true" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database/Tables/Giacenze.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="206" column="54" lean-forward="true" selection-start-line="206" selection-start-column="54" selection-end-line="206" selection-end-column="54" />
+            <state relative-caret-position="3090">
+              <caret line="206" column="54" selection-start-line="206" selection-start-column="54" selection-end-line="206" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -69,12 +96,12 @@
         <option value="$PROJECT_DIR$/Database/Tables/Vendite.php" />
         <option value="$PROJECT_DIR$/Database/Views/BarcodeCopre.php" />
         <option value="$PROJECT_DIR$/Database/Views/Barcode.php" />
-        <option value="$PROJECT_DIR$/invioDati.php" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.php" />
         <option value="/script/01_sistemazione_dc.php" />
         <option value="$PROJECT_DIR$/Database/config.php" />
         <option value="$PROJECT_DIR$/ricalcolo.php" />
         <option value="$PROJECT_DIR$/Database/Tables/Giacenze.php" />
+        <option value="$PROJECT_DIR$/invioDati.php" />
       </list>
     </option>
   </component>
@@ -102,8 +129,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="199" />
     <option name="y" value="49" />
-    <option name="width" value="1258" />
-    <option name="height" value="927" />
+    <option name="width" value="1612" />
+    <option name="height" value="1026" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -155,6 +182,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="PHP" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -209,23 +237,25 @@
       <workItem from="1560878041198" duration="140000" />
       <workItem from="1560951175020" duration="4000" />
       <workItem from="1563378678805" duration="851000" />
-      <workItem from="1563427751664" duration="4812000" />
+      <workItem from="1563427751664" duration="5290000" />
+      <workItem from="1563475812422" duration="6000" />
+      <workItem from="1563608486634" duration="817000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13766000" />
+    <option name="totallyTimeSpent" value="15067000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="199" y="49" width="1258" height="927" extended-state="0" />
+    <frame x="199" y="49" width="1612" height="1026" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20641448" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16496815" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32839507" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32839507" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39876544" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -234,7 +264,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.37654322" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.33553356" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -286,16 +316,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/invioDati.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="96" column="26" selection-start-line="96" selection-start-column="26" selection-end-line="96" selection-end-column="26" />
-          <folding>
-            <element signature="e#814#843#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Database/Tables/Vendite.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -307,13 +327,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
           <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Database/Tables/Log.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="44" column="71" selection-start-line="42" selection-start-column="24" selection-end-line="44" selection-end-column="71" />
         </state>
       </provider>
     </entry>
@@ -334,6 +347,20 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Database/Tables/Arrivi.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/Tables/Giacenze.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3090">
+          <caret line="206" column="54" selection-start-line="206" selection-start-column="54" selection-end-line="206" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Database/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -341,24 +368,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/Tables/Arrivi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ricalcolo.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
+        <state relative-caret-position="428">
           <caret line="159" column="39" selection-start-line="159" selection-start-column="19" selection-end-line="159" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Database/Tables/Giacenze.php">
+    <entry file="file://$PROJECT_DIR$/invioDati.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="206" column="54" lean-forward="true" selection-start-line="206" selection-start-column="54" selection-end-line="206" selection-end-column="54" />
+        <state relative-caret-position="471">
+          <caret line="212" column="39" selection-start-line="212" selection-start-column="29" selection-end-line="212" selection-end-column="39" />
+          <folding>
+            <element signature="e#814#843#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/Tables/Trasferimentiin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Database/Tables/Log.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="35" column="39" lean-forward="true" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
         </state>
       </provider>
     </entry>

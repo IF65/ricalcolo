@@ -58,8 +58,7 @@
 	$elencoBarcodeCopre = $barcodeCopre->creaElenco();
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
-    $elencoDateDaInviare = [['data' => '2019-05-24'],['data' => '2019-05-25'],['data' => '2019-05-26'],['data' => '2019-05-27']];  //<-----------------------------------------------------------------------
-	$logger->info("(210) INVIO VENDITE GRE, date da inviare: ".count($elencoDateDaInviare));
+    $logger->info("(210) INVIO VENDITE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
 		$elencoSediDaInviare =  $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 210);
@@ -177,7 +176,6 @@
 	}
 	
 	$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //220 = INVIO GIACENZE COPRE, 230 = INVIO GIACENZE GRE
-	$elencoDateDaInviare = [['data' => '2019-05-24'],['data' => '2019-05-25'],['data' => '2019-05-26'],['data' => '2019-05-27']]; //<-----------------------------------------------------------------------
 	$logger->info("(230) INVIO GIACENZE GRE, date da inviare: ".count($elencoDateDaInviare));
 	foreach($elencoDateDaInviare as $dataDaInviare) {
 		$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
