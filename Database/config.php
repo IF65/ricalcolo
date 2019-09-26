@@ -7,7 +7,7 @@ ini_set('display_errors', '1');
 $sqlDetails = array(
 	"user" 		=> "root",
 	"password" 	=> "mela",
-	"host" 		=> "127.0.0.1",
+	"host" 		=> "10.11.14.78",//"127.0.0.1",
 	"port" 		=> "",
 	"db"   		=> "db_sm",
 	"dsn" 		=> "",

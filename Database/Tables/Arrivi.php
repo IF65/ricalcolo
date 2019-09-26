@@ -83,7 +83,7 @@
                     $codice = $record['codice'];
                     $sql .= " and r.codice_articolo = '$codice'";
                 }
-                $sql .= " group by 1,2,3";
+                $sql .= " group by 1,2,3;";
                             
 				$stmt = $this->pdo->prepare($sql);
                 $stmt->execute();

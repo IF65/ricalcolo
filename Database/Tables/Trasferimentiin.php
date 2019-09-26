@@ -60,7 +60,7 @@
                 $data = $record['data'];
                 $sql = "select t.`data`,r.`codice`,upper(t.`negozio_arrivo`) `negozio`,sum(r.`quantita`) `quantita`
                         from $this->tableNameT as t join $this->tableNameR as r on t.`link`=r.`link_trasferimento`
-                        where t.`data` = '$data'";    
+                        where t.`data` = '$data'";
                 if (key_exists('negozio', $record)) {
                     $negozio = $record['negozio'];
                     $sql .= " and a.negozio = '$negozio'"; 

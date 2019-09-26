@@ -69,6 +69,10 @@
 		$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 		foreach ($range as $date) {
 			$logger->info($date->format('Y-m-d'));
+
+			if ($date->format('Y-m-d') == '2019-09-04') {
+                echo "\n";
+            }
 			
 			// carico gli arrivi
 			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
@@ -82,6 +86,9 @@
 					}
 					
 					$situazioni[$codice][$negozio] += $quantita;
+
+					//$sit = $situazioni[$codice][$negozio];
+                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tA\t".$date->format('Y-m-d')."\t$quantita\t$sit\n", FILE_APPEND);
 				}
 			}
 			$logger->debug($date->format('Y-m-d').', arrivi: '.count($elencoArrivi));
@@ -99,6 +106,9 @@
 					}
 					
 					$situazioni[$codice][$negozio] += $quantita;
+
+                    //$sit = $situazioni[$codice][$negozio];
+                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tTI\t".$date->format('Y-m-d')."\t$quantita\t$sit\n", FILE_APPEND);
 				}
 			}
 			$logger->debug($date->format('Y-m-d').', trasf.in: '.count($elencoTrasferimentiIn));
@@ -115,6 +125,9 @@
 						$situazioni[$codice][$negozio] = 0;
 					}
 					$situazioni[$codice][$negozio] -= $quantita;
+
+                    //$sit = $situazioni[$codice][$negozio];
+                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tD".$date->format('Y-m-d')."\t-$quantita\t$sit\n", FILE_APPEND);
 				}
 			}
 			$logger->debug($date->format('Y-m-d').', diversi: '.count($elencoDiversi));
@@ -132,6 +145,9 @@
 					}
 					
 					$situazioni[$codice][$negozio] -= $quantita;
+
+                    //$sit = $situazioni[$codice][$negozio];
+                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tTU\t".$date->format('Y-m-d')."\t-$quantita\t$sit\n", FILE_APPEND);
 				}
 			}
 			$logger->debug($date->format('Y-m-d').', trasf.out: '.count($elencoTrasferimentiOut));
@@ -149,6 +165,9 @@
 					}
 					
 					$situazioni[$codice][$negozio] -= $quantita;
+
+                    //$sit = $situazioni[$codice][$negozio];
+                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tV\t".$date->format('Y-m-d')."\t-$quantita\t$sit\n", FILE_APPEND);
 				}
 			}
 			$logger->debug($date->format('Y-m-d').', vendite: '.count($elencoVendite));
