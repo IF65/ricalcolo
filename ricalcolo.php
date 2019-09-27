@@ -17,7 +17,7 @@
 													],
 									],
 					'rootLogger' => [
-										'level' => 'debug',
+										'level' => 'info',
 										'appenders' => [
 															'default'
 														],
