@@ -127,7 +127,7 @@
                     $situazioni[$codice][$negozio] -= $quantita;
 
                     if ($codiceArticoloAnalizzato == $codice) {
-                        $logger->debug( $date->format( 'Y-m-d' ) . "\t" . $codice . "\t" . $negozio . "\tdiverso\t" . $quantita . "\t" . $situazioni[$codice][$negozio] );
+                        $logger->debug( $date->format( 'Y-m-d' ) . "\t" . $codice . "\t" . $negozio . "\tdiverso\t" . -$quantita . "\t" . $situazioni[$codice][$negozio] );
                     }
                 }
 			}
@@ -146,7 +146,7 @@
 
                     $situazioni[$codice][$negozio] -= $quantita;
                     if ($codiceArticoloAnalizzato == $codice) {
-                        $logger->debug( $date->format( 'Y-m-d' ) . "\t" . $codice . "\t" . $negozio . "\ttrasf.out\t" . $quantita . "\t" . $situazioni[$codice][$negozio] );
+                        $logger->debug( $date->format( 'Y-m-d' ) . "\t" . $codice . "\t" . $negozio . "\ttrasf.out\t" . -$quantita . "\t" . $situazioni[$codice][$negozio] );
                     }
                 }
 			}
@@ -166,7 +166,7 @@
                     $situazioni[$codice][$negozio] -= $quantita;
 
                     if ($codiceArticoloAnalizzato == $codice) {
-                        $logger->debug( $date->format( 'Y-m-d' ) . "\t" . $codice . "\t" . $negozio . "\tvendita\t" . $quantita . "\t" . $situazioni[$codice][$negozio] );
+                        $logger->debug( $date->format( 'Y-m-d' ) . "\t" . $codice . "\t" . $negozio . "\tvendita\t" . -$quantita . "\t" . $situazioni[$codice][$negozio] );
                     }
                 }
 			}
