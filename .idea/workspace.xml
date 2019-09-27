@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Arrivi.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Arrivi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Trasferimentiin.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Trasferimentiin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +16,6 @@
     <execution>
       <executable />
     </execution>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>logCar</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -115,7 +107,8 @@
       <workItem from="1563955483282" duration="3000" />
       <workItem from="1569485390100" duration="751000" />
       <workItem from="1569487957326" duration="1091000" />
-      <workItem from="1569500534795" duration="4189000" />
+      <workItem from="1569500534795" duration="5319000" />
+      <workItem from="1569564625293" duration="586000" />
     </task>
     <servers />
   </component>

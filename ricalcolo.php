@@ -39,6 +39,10 @@
 	use Database\Tables\Trasferimentiout;
 	use Database\Tables\Diversi;
 
+    // impostazioni debug
+    //--------------------------------------------------------------------------------
+    $codiceArticoloAnalizzato = '0848293';
+
 	// creazione ogetti
 	//--------------------------------------------------------------------------------
 	$giacenzeIniziali = new Giacenzainiziale($sqlDetails);
@@ -70,10 +74,6 @@
 		foreach ($range as $date) {
 			$logger->info($date->format('Y-m-d'));
 
-			if ($date->format('Y-m-d') == '2019-09-04') {
-                echo "\n";
-            }
-			
 			// carico gli arrivi
 			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
 			foreach ($elencoArrivi as $codice => $arrivo) {
@@ -81,17 +81,17 @@
 					$situazioni[$codice] = [];
 				}
 				foreach ($arrivo as $negozio => $quantita) {
-					if (! key_exists($negozio, $situazioni[$codice])) {
-						$situazioni[$codice][$negozio] = 0;
-					}
-					
-					$situazioni[$codice][$negozio] += $quantita;
+                    if (!key_exists( $negozio, $situazioni[$codice] )) {
+                        $situazioni[$codice][$negozio] = 0;
+                    }
 
-					//$sit = $situazioni[$codice][$negozio];
-                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tA\t".$date->format('Y-m-d')."\t$quantita\t$sit\n", FILE_APPEND);
-				}
+                    $situazioni[$codice][$negozio] += $quantita;
+
+                    if ($codiceArticoloAnalizzato == $codice) {
+                        $logger->debug( $date->format( 'Y-m-d' ) . ', ' . $codice . '/' . $negozio . 'arrivi: ' . $quantita . ' => sit: ' . $situazioni[$codice][$negozio] );
+                    }
+                }
 			}
-			$logger->debug($date->format('Y-m-d').', arrivi: '.count($elencoArrivi));
 			unset($elencoArrivi);
 			
 			// carico i trasferimenti in ingresso
@@ -101,17 +101,18 @@
 					$situazioni[$codice] = [];
 				}
 				foreach ($trasferimento as $negozio => $quantita) {
-					if (! key_exists($negozio, $situazioni[$codice])) {
-						$situazioni[$codice][$negozio] = 0;
-					}
-					
-					$situazioni[$codice][$negozio] += $quantita;
+                    if (!key_exists( $negozio, $situazioni[$codice] )) {
+                        $situazioni[$codice][$negozio] = 0;
+                    }
 
-                    //$sit = $situazioni[$codice][$negozio];
-                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tTI\t".$date->format('Y-m-d')."\t$quantita\t$sit\n", FILE_APPEND);
-				}
+                    $situazioni[$codice][$negozio] += $quantita;
+
+                    if ($codiceArticoloAnalizzato == $codice) {
+                        $logger->debug( $date->format( 'Y-m-d' ) . ', ' . $codice . '/' . $negozio . 'trasf.in: ' . $quantita . ' => sit: ' . $situazioni[$codice][$negozio] );
+                    }
+                }
 			}
-			$logger->debug($date->format('Y-m-d').', trasf.in: '.count($elencoTrasferimentiIn));
+
 			unset($elencoTrasferimentiIn);
 			
 			// carico/scarico i diversi
@@ -121,14 +122,15 @@
 					$situazioni[$codice] = [];
 				}
 				foreach ($diverso as $negozio => $quantita) {
-					if (! key_exists($negozio, $situazioni[$codice])) {
-						$situazioni[$codice][$negozio] = 0;
-					}
-					$situazioni[$codice][$negozio] -= $quantita;
+                    if (!key_exists( $negozio, $situazioni[$codice] )) {
+                        $situazioni[$codice][$negozio] = 0;
+                    }
+                    $situazioni[$codice][$negozio] -= $quantita;
 
-                    //$sit = $situazioni[$codice][$negozio];
-                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tD".$date->format('Y-m-d')."\t-$quantita\t$sit\n", FILE_APPEND);
-				}
+                    if ($codiceArticoloAnalizzato == $codice) {
+                        $logger->debug( $date->format( 'Y-m-d' ) . ', ' . $codice . '/' . $negozio . 'diversi: ' . $quantita . ' => sit: ' . $situazioni[$codice][$negozio] );
+                    }
+                }
 			}
 			$logger->debug($date->format('Y-m-d').', diversi: '.count($elencoDiversi));
 			unset($elencoDiversi);
@@ -140,15 +142,15 @@
 					$situazioni[$codice] = [];
 				}
 				foreach ($trasferimento as $negozio => $quantita) {
-					if (! key_exists($negozio, $situazioni[$codice])) {
-						$situazioni[$codice][$negozio] = 0;
-					}
-					
-					$situazioni[$codice][$negozio] -= $quantita;
+                    if (!key_exists( $negozio, $situazioni[$codice] )) {
+                        $situazioni[$codice][$negozio] = 0;
+                    }
 
-                    //$sit = $situazioni[$codice][$negozio];
-                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tTU\t".$date->format('Y-m-d')."\t-$quantita\t$sit\n", FILE_APPEND);
-				}
+                    $situazioni[$codice][$negozio] -= $quantita;
+                    if ($codiceArticoloAnalizzato == $codice) {
+                        $logger->debug( $date->format( 'Y-m-d' ) . ', ' . $codice . '/' . $negozio . 'trasf.out: ' . $quantita . ' => sit: ' . $situazioni[$codice][$negozio] );
+                    }
+                }
 			}
 			$logger->debug($date->format('Y-m-d').', trasf.out: '.count($elencoTrasferimentiOut));
 			unset($elencoTrasferimentiOut);
@@ -160,15 +162,16 @@
 					$situazioni[$codice] = [];
 				}
 				foreach ($vendita as $negozio => $quantita) {
-					if (! key_exists($negozio, $situazioni[$codice])) {
-						$situazioni[$codice][$negozio] = 0;
-					}
-					
-					$situazioni[$codice][$negozio] -= $quantita;
+                    if (!key_exists( $negozio, $situazioni[$codice] )) {
+                        $situazioni[$codice][$negozio] = 0;
+                    }
 
-                    //$sit = $situazioni[$codice][$negozio];
-                    //file_put_contents("/Users/if65/Desktop/controllo.txt", "$negozio\tV\t".$date->format('Y-m-d')."\t-$quantita\t$sit\n", FILE_APPEND);
-				}
+                    $situazioni[$codice][$negozio] -= $quantita;
+
+                    if ($codiceArticoloAnalizzato == $codice) {
+                        $logger->debug( $date->format( 'Y-m-d' ) . ', ' . $codice . '/' . $negozio . 'vendite: ' . $quantita . ' => sit: ' . $situazioni[$codice][$negozio] );
+                    }
+                }
 			}
 			$logger->debug($date->format('Y-m-d').', vendite: '.count($elencoVendite));
 			unset($elencoVendite);
