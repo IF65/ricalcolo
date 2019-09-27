@@ -112,7 +112,6 @@
                     }
                 }
 			}
-
 			unset($elencoTrasferimentiIn);
 			
 			// carico/scarico i diversi
@@ -132,7 +131,6 @@
                     }
                 }
 			}
-			$logger->debug($date->format('Y-m-d').', diversi: '.count($elencoDiversi));
 			unset($elencoDiversi);
 			
 			// scarico i trasferimenti in uscita
@@ -152,7 +150,6 @@
                     }
                 }
 			}
-			$logger->debug($date->format('Y-m-d').', trasf.out: '.count($elencoTrasferimentiOut));
 			unset($elencoTrasferimentiOut);
 			
 			// scarico le vendite
@@ -173,17 +170,16 @@
                     }
                 }
 			}
-			$logger->debug($date->format('Y-m-d').', vendite: '.count($elencoVendite));
 			unset($elencoVendite);
 			
 			$giacenze->caricaSituazioni($date, $situazioni);
-			$logger->debug($date->format('Y-m-d').', situazioni caricate.');
+			//$logger->debug($date->format('Y-m-d').', situazioni caricate.');
 		}
 		$giacenze->creaGiacenzeCorrenti();
 		$logger->info('giacenze correnti create');
 	}
 	$giacenze->eliminaTabelleTemporaneeeRicalcolo();
-	$logger->debug('tabelle eliminate/rinominate');
+	//$logger->debug('tabelle eliminate/rinominate');
 	
 	$logger->info("Fine procedura ricalcolo.");
 	//$json = json_encode($situazioni, true);
