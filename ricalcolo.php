@@ -17,7 +17,7 @@
 													],
 									],
 					'rootLogger' => [
-										'level' => 'info',
+										'level' => 'debug',
 										'appenders' => [
 															'default'
 														],
@@ -75,7 +75,7 @@
 			$logger->info($date->format('Y-m-d'));
 
 			// carico gli arrivi
-			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]);
+			$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato]);
 			foreach ($elencoArrivi as $codice => $arrivo) {
 			    if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
@@ -95,7 +95,7 @@
 			unset($elencoArrivi);
 			
 			// carico i trasferimenti in ingresso
-			$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d')]);
+			$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato]);
 			foreach ($elencoTrasferimentiIn as $codice => $trasferimento) {
                 if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
@@ -115,7 +115,7 @@
 			unset($elencoTrasferimentiIn);
 			
 			// carico/scarico i diversi
-			$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d')]);
+			$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato]);
 			foreach ($elencoDiversi as $codice => $diverso) {
                 if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
@@ -134,7 +134,7 @@
 			unset($elencoDiversi);
 			
 			// scarico i trasferimenti in uscita
-			$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
+			$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato]);
 			foreach ($elencoTrasferimentiOut as $codice => $trasferimento) {
                 if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];
@@ -153,7 +153,7 @@
 			unset($elencoTrasferimentiOut);
 			
 			// scarico le vendite
-			$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
+			$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato]);
 			foreach ($elencoVendite as $codice => $vendita) {
                 if (! key_exists($codice, $situazioni)) {
 					$situazioni[$codice] = [];

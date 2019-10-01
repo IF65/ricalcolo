@@ -108,7 +108,12 @@
       <workItem from="1569485390100" duration="751000" />
       <workItem from="1569487957326" duration="1091000" />
       <workItem from="1569500534795" duration="5319000" />
-      <workItem from="1569564625293" duration="3503000" />
+      <workItem from="1569564625293" duration="4010000" />
+      <workItem from="1569575627191" duration="172000" />
+      <workItem from="1569587750484" duration="805000" />
+      <workItem from="1569823067641" duration="356000" />
+      <workItem from="1569828785826" duration="85000" />
+      <workItem from="1569848566757" duration="2664000" />
     </task>
     <servers />
   </component>
@@ -129,6 +134,15 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/ricalcolo.php</url>
+          <line>72</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PhpLocalRunConfigurationType">
         <watch expression="$sql" />
