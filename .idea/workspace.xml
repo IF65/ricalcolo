@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +38,11 @@
     </option>
   </component>
   <component name="ProjectId" id="1RMmYnPQVUxyLX7DaR9DhNcI7eq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -59,18 +63,6 @@
       <recent name="/script" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager">
     <configuration name="ricalcolo.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/ricalcolo.php">
       <method v="2" />
@@ -80,6 +72,18 @@
         <item itemvalue="PHP Script.ricalcolo.php" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -114,7 +118,9 @@
       <workItem from="1569823067641" duration="356000" />
       <workItem from="1569828785826" duration="85000" />
       <workItem from="1569848566757" duration="3224000" />
-      <workItem from="1569935593387" duration="149000" />
+      <workItem from="1569935593387" duration="984000" />
+      <workItem from="1570201473179" duration="91000" />
+      <workItem from="1578897486291" duration="55000" />
     </task>
     <servers />
   </component>
