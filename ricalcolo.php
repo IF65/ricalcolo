@@ -59,13 +59,13 @@
 	//--------------------------------------------------------------------------------
     $timeZone = new DateTimeZone('Europe/Rome');
 
-	$end = (new DateTime())->sub(new DateInterval('P1D'));
+	/*$end = (new DateTime())->sub(new DateInterval('P1D'));
 	$start = new DateTime('January 1, '.$end->format('Y'));
 	$interval = new DateInterval('P1D');
-	$range = new DatePeriod($start, $interval, $end);
+	$range = new DatePeriod($start, $interval, $end);*/
 
     $end = DateTime::createFromFormat('Y-m-d', '2020-01-05');
-    $start = DateTime::createFromFormat('Y-m-d', '2019-12-30');
+    $start = new DateTime('January 1, '.$end->format('Y'));
     $interval = new DateInterval('P1D');
     $range = new DatePeriod($start, $interval, $end);
 
@@ -183,7 +183,7 @@
 		$giacenze->creaGiacenzeCorrenti();
 		$logger->info('giacenze correnti create');
 	}
-	$giacenze->eliminaTabelleTemporaneeeRicalcolo();
+	$giacenze->eliminaTabelleTemporaneeRicalcolo();
 	//$logger->debug('tabelle eliminate/rinominate');
 	
 	$logger->info("Fine procedura ricalcolo.");

@@ -130,7 +130,7 @@
             }
         }
         
-        public function eliminaTabelleTemporaneeeRicalcolo() {
+        public function eliminaTabelleTemporaneeRicalcolo() {
             try {
                 $sql = "DROP TABLE IF EXISTS $this->tableName;";
                 $this->pdo->exec($sql);
