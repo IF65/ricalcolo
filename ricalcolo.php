@@ -64,10 +64,10 @@
 	$interval = new DateInterval('P1D');
 	$range = new DatePeriod($start, $interval, $end);
 
-/*    $end = DateTime::createFromFormat('Y-m-d', '2019-12-31');
-    $start = DateTime::createFromFormat('Y-m-d', '2019-01-01');
+    $end = DateTime::createFromFormat('Y-m-d', '2019-12-30');
+    $start = DateTime::createFromFormat('Y-m-d', '2019-01-05');
     $interval = new DateInterval('P1D');
-    $range = new DatePeriod($start, $interval, $end);*/
+    $range = new DatePeriod($start, $interval, $end);
 
 	// serpentone
 	//--------------------------------------------------------------------------------
