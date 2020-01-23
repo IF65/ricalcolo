@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +126,7 @@
       <workItem from="1578924451741" duration="281000" />
       <workItem from="1578926520732" duration="500000" />
       <workItem from="1578947302927" duration="84000" />
-      <workItem from="1579769185404" duration="117000" />
+      <workItem from="1579769185404" duration="343000" />
     </task>
     <servers />
   </component>

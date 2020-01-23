@@ -65,7 +65,7 @@
 	$range = new DatePeriod($start, $interval, $end);
 
     $end = DateTime::createFromFormat('Y-m-d', '2019-12-30');
-    $start = DateTime::createFromFormat('Y-m-d', '2019-01-05');
+    $start = DateTime::createFromFormat('Y-m-d', '2020-01-05');
     $interval = new DateInterval('P1D');
     $range = new DatePeriod($start, $interval, $end);
 
