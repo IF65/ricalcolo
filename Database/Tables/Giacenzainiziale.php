@@ -25,7 +25,7 @@
                             `negozio` varchar(4) NOT NULL DEFAULT '',
                             `giacenza` float NOT NULL DEFAULT '0',
                             `costo_medio` float NOT NULL DEFAULT '0',
-                            `anno_attivo` int(11) NOT NULL DEFAULT '2020',
+                            `anno_attivo` int(11) NOT NULL DEFAULT '2021',
                             PRIMARY KEY (`codice`,`negozio`,`anno_attivo`)
                         ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
                 $this->pdo->exec($sql);
