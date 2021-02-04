@@ -155,7 +155,7 @@
 				$riga .= number_format($vendita['prezzo_unitario'],2,',','')."|0|";
 				$riga .= number_format($vendita['totale'],2,',','')."|";
 				$riga .= number_format($vendita['totale no iva'],2,',','')."|";
-				$riga .= $vendita['tipo']."||0|".sprintf('%.2f',$costo)."\r\n";
+				$riga .= $vendita['tipo']."||0|".preg_replace('/\./', ',',sprintf('%.2f',$costo))."\r\n";
 				
 				$righe[] = $riga;
 			}
