@@ -6,22 +6,22 @@
 	
 	$logConfig = [
 					'appenders' => [
-										'default' => [
-														'class' => 'LoggerAppenderPDO',
-														'params' => [
-																		'dsn' => 'mysql:host=10.11.14.78;dbname=log',
-																		'user' => 'root',
-																		'password' => 'mela',
-																		'table' => 'logPhpScript',
-																	],
-													],
-									],
+						'default' => [
+							'class' => 'LoggerAppenderPDO',
+							'params' => [
+								'dsn' => 'mysql:host=10.11.14.78;dbname=log',
+								'user' => 'root',
+								'password' => 'mela',
+								'table' => 'logPhpScript',
+							],
+						],
+					],
 					'rootLogger' => [
-										'level' => 'debug',
-										'appenders' => [
-															'default'
-														],
-									],
+						'level' => 'debug',
+						'appenders' => [
+							'default'
+						],
+					],
 				];
 	
 	Logger::configure($logConfig);
@@ -97,6 +97,11 @@
 		$righe = [];
 		foreach ($vendutoAllaData as $vendita) {
 			if (array_key_exists($vendita['negozio'], $elencoSediDaInviare)) {
+				$costo = $vendita['costo_ultimo'] * 1;
+				if ($costo == 0.0) {
+					$costo = $vendita['costo_medio'] * 1;
+				}
+
 				$riga = '';
 				// sistemo i contatori
 				if ($negozioOld != $vendita['negozio'] or $scontrinoOld  != $vendita['numero_upb']) {
@@ -150,7 +155,7 @@
 				$riga .= number_format($vendita['prezzo_unitario'],2,',','')."|0|";
 				$riga .= number_format($vendita['totale'],2,',','')."|";
 				$riga .= number_format($vendita['totale no iva'],2,',','')."|";
-				$riga .= $vendita['tipo']."||0\r\n";
+				$riga .= $vendita['tipo']."||0|".sprintf('%.2f',$costo)."\r\n";
 				
 				$righe[] = $riga;
 			}

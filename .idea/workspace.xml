@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Tables/Vendite.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Vendite.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +19,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.2">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.3">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/apache/log4php" />
@@ -55,6 +55,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settings.deploy.options" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -63,12 +64,16 @@
       <recent name="/script" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHP Script.invioDati.php">
+    <configuration name="invioDati.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/invioDati.php">
+      <method v="2" />
+    </configuration>
     <configuration name="ricalcolo.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/ricalcolo.php">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="PHP Script.invioDati.php" />
         <item itemvalue="PHP Script.ricalcolo.php" />
       </list>
     </recent_temporary>
@@ -130,6 +135,10 @@
       <workItem from="1578947302927" duration="84000" />
       <workItem from="1579769185404" duration="1452000" />
       <workItem from="1610966058081" duration="145000" />
+      <workItem from="1610966397841" duration="21000" />
+      <workItem from="1610966659625" duration="466000" />
+      <workItem from="1610977839336" duration="2000" />
+      <workItem from="1612422012149" duration="2315000" />
     </task>
     <servers />
   </component>
@@ -149,10 +158,19 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="PhpLocalRunConfigurationType">
-        <watch expression="$sql" />
-      </configuration>
-    </watches-manager>
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/ricalcolo.php</url>
+          <line>182</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
+          <line>198</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

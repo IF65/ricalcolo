@@ -1,3 +1,6 @@
-vendor
+.DS_Store
+composer.phar
 composer.lock
 /Database/config.php
+/.idea/*
+/vendor/

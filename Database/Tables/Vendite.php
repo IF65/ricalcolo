@@ -162,6 +162,8 @@
 							ma.`codice`,
 							mr.`marca`, 
 							ma.`modello`,
+                            round(ifnull(ma.`costo_ultimo`,0),2) as `costo_ultimo`,
+                            round(ifnull(ma.`costo_medio`,0), 2) as `costo_medio`,
 							round(r.`quantita`,0) `quantita`,
 							round(case when r.`quantita` <> 0 then r.`importo_totale`/r.`quantita` else 0 end ,2) `prezzo_unitario`,
 							round(r.`importo_totale`,2) `totale`,
