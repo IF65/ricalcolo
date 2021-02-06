@@ -41,13 +41,15 @@
 		mkdir($cartellaDiInvio, 0777, true);
 	}
 	
-	// creazione ogetti
+	// creazione oggetti
 	//--------------------------------------------------------------------------------
 	$giacenze = new Giacenze($sqlDetails);
 	$vendite = new Vendite($sqlDetails);
 	$barcodeCopre = new Barcode($sqlDetails);
 	$log = new Log($sqlDetails);
 	$logger->info("Oggetti creati.");
+
+	$articoliNascosti = $giacenze->getHiddenArticles();
 	
     // impostazioni periodo
 	//--------------------------------------------------------------------------------
@@ -147,10 +149,17 @@
 				$riga .= number_format($totaleNoIva,2,',','')."|";
 				$riga .= number_format($totale,2,',','')."|0|0|0|0|0|0|0|0|";
 				$riga .= "$contatore||";
-				$riga .= $mainBarcode."|";
-				$riga .= $vendita['codice']."|";
-				$riga .= $vendita['marca']."|";
-				$riga .= $vendita['modello']."|";
+				if (key_exists( $vendita['codice'], $articoliNascosti)) {
+					$riga .= '' . "|";
+					$riga .= '9999999' . "|";
+					$riga .= 'SM' . "|";
+					$riga .= '' . "|";
+				} else {
+					$riga .= $mainBarcode . "|";
+					$riga .= $vendita['codice'] . "|";
+					$riga .= $vendita['marca'] . "|";
+					$riga .= $vendita['modello'] . "|";
+				}
 				$riga .= $vendita['quantita']."|";
 				$riga .= number_format($vendita['prezzo_unitario'],2,',','')."|0|";
 				$riga .= number_format($vendita['totale'],2,',','')."|";
@@ -196,6 +205,11 @@
 				$logger->debug('(230) '.$dataCalcolo->format('Y-m-d').', invio stock negozio: '.$codiceNegozio.', articoli: '.count($recordNegozio));
 				foreach($recordNegozio as $codiceArticolo => $recordArticolo) {
 
+					$giacenza = $recordArticolo['giacenza'];
+					if (key_exists($codiceArticolo, $articoliNascosti)) {
+						$giacenza = 0;
+					}
+
                     // inserisco il barcode principale di copre
                     $mainBarcode = $recordArticolo['ean'];
                     if (key_exists( $codiceArticolo, $elencoBarcodeCopre)) {
@@ -211,7 +225,7 @@
 					$riga .= $codiceArticolo."|";
 					$riga .= $recordArticolo['linea']."|";
 					$riga .= $recordArticolo['modello']."|";
-					$riga .= $recordArticolo['giacenza']."|".$recordArticolo['giacenza']."|0||0,00\r\n";
+					$riga .= "$giacenza|$giacenza|0||0,00\r\n";
 					
 					$righe[] = $riga;
 				}

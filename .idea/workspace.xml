@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,6 +140,9 @@
       <workItem from="1612422012149" duration="2315000" />
       <workItem from="1612432790604" duration="4000" />
       <workItem from="1612456308694" duration="251000" />
+      <workItem from="1612509300671" duration="576000" />
+      <workItem from="1612649713860" duration="2038000" />
+      <workItem from="1612651892158" duration="26000" />
     </task>
     <servers />
   </component>
@@ -167,8 +171,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
-          <line>198</line>
-          <option name="timeStamp" value="3" />
+          <line>289</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
+          <line>296</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

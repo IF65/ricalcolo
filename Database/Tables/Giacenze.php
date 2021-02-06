@@ -284,6 +284,23 @@
                 return null;
             }
         }
+
+        public function getHiddenArticles():array {
+            try {
+                $h_query = $this->pdo->prepare("select distinct r.codice from righe_vendita as r where r.`progressivo` like 'piro%'");
+                $h_query->execute();
+                $result = $h_query->fetchAll( \PDO::FETCH_ASSOC );
+                $articoli = [];
+                foreach ($result as $articolo) {
+                    $articoli[$articolo['codice']] = '';
+                }
+                unset($result);
+
+                return $articoli;
+            } catch (PDOException $e) {
+                die("DB ERROR: ". $e->getMessage());
+            }
+        }
         
         public function eliminaTabellaTemporanea() {
         	try {
