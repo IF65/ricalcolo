@@ -287,7 +287,7 @@
 
         public function getHiddenArticles():array {
             try {
-                $h_query = $this->pdo->prepare("select distinct r.codice from righe_vendita as r where r.`progressivo` like 'piro%'");
+                $h_query = $this->pdo->prepare("select distinct r.codice from righe_vendita as r where r.`progressivo` like 'piro%' or r.`progressivo` like 'bez%'");
                 $h_query->execute();
                 $result = $h_query->fetchAll( \PDO::FETCH_ASSOC );
                 $articoli = [];
