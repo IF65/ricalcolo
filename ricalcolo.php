@@ -2,34 +2,6 @@
 @ini_set('memory_limit', '16384M');
 
 include(__DIR__ . '/Database/bootstrap.php');
-include(__DIR__ . '/vendor/apache/log4php/src/main/php/Logger.php');
-
-$logConfig = [
-	'appenders' => [
-		'default' => [
-			'class' => 'LoggerAppenderPDO',
-			'params' => [
-				'dsn' => 'mysql:host=10.11.14.78;dbname=log',
-				'user' => 'root',
-				'password' => 'mela',
-				'table' => 'logPhpScript',
-			],
-		],
-	],
-	'rootLogger' => [
-		'level' => 'info',
-		'appenders' => [
-			'default'
-		],
-	],
-];
-
-//Logger::configure(__DIR__.'/Database/config.xml');
-Logger::configure($logConfig);
-$logger = Logger::getLogger("ricalcolo");
-
-$logger->info("Inizio procedura ricalcolo.");
-sleep(3);
 
 use Database\Tables\Giacenzainiziale;
 use Database\Tables\Giacenze;
@@ -52,7 +24,6 @@ $vendite = new Vendite($sqlDetails);
 $trasferimentiIn = new Trasferimentiin($sqlDetails);
 $trasferimentiOut = new Trasferimentiout($sqlDetails);
 $diversi = new Diversi($sqlDetails);
-$logger->debug("Oggetti creati.");
 sleep(3);
 
 // impostazioni periodo
@@ -76,13 +47,12 @@ $range = new DatePeriod($start, $interval, $end);*/
 
 // serpentone
 //--------------------------------------------------------------------------------
-$logger->info("Inizio serpentone.");
 sleep(3);
 if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 	// carico le giacenze iniziali
 	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
 	foreach ($range as $date) {
-		$logger->info($date->format('Y-m-d'));
+		echo $date->format('Y-m-d') . "\n";
 
 		// carico gli arrivi
 		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]); //, 'codice' => $codiceArticoloAnalizzato
@@ -96,10 +66,6 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 				}
 
 				$situazioni[$codice][$negozio] += $quantita;
-
-				if ($codiceArticoloAnalizzato == $codice) {
-					$logger->debug($date->format('Y-m-d') . "\t" . $codice . "\t" . $negozio . "\tarrivo\t" . $quantita . "\t" . $situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoArrivi);
@@ -116,10 +82,6 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 				}
 
 				$situazioni[$codice][$negozio] += $quantita;
-
-				if ($codiceArticoloAnalizzato == $codice) {
-					$logger->debug($date->format('Y-m-d') . "\t" . $codice . "\t" . $negozio . "\ttrasf.in\t" . $quantita . "\t" . $situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoTrasferimentiIn);
@@ -135,10 +97,6 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 					$situazioni[$codice][$negozio] = 0;
 				}
 				$situazioni[$codice][$negozio] -= $quantita;
-
-				if ($codiceArticoloAnalizzato == $codice) {
-					$logger->debug($date->format('Y-m-d') . "\t" . $codice . "\t" . $negozio . "\tdiverso\t" . -$quantita . "\t" . $situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoDiversi);
@@ -155,9 +113,6 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 				}
 
 				$situazioni[$codice][$negozio] -= $quantita;
-				if ($codiceArticoloAnalizzato == $codice) {
-					$logger->debug($date->format('Y-m-d') . "\t" . $codice . "\t" . $negozio . "\ttrasf.out\t" . -$quantita . "\t" . $situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoTrasferimentiOut);
@@ -174,24 +129,16 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 				}
 
 				$situazioni[$codice][$negozio] -= $quantita;
-
-				if ($codiceArticoloAnalizzato == $codice) {
-					$logger->debug($date->format('Y-m-d') . "\t" . $codice . "\t" . $negozio . "\tvendita\t" . -$quantita . "\t" . $situazioni[$codice][$negozio]);
-				}
 			}
 		}
 		unset($elencoVendite);
 
 		$giacenze->caricaSituazioni($date, $situazioni);
-		//$logger->debug($date->format('Y-m-d').', situazioni caricate.');
 	}
 	$giacenze->creaGiacenzeCorrenti();
-	$logger->info('giacenze correnti create');
 }
 $giacenze->eliminaTabelleTemporaneeRicalcolo();
-//$logger->debug('tabelle eliminate/rinominate');
 
-$logger->info("Fine procedura ricalcolo.");
 //$json = json_encode($situazioni, true);
 //file_put_contents("/Users/if65/Desktop/dati.json", $json);
 	

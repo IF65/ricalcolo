@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +26,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.3">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1.1">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/apache/log4php" />
@@ -75,6 +78,10 @@
     <configuration name="ricalcolo.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/ricalcolo.php">
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="PHP Script.invioDati.php" />
+      <item itemvalue="PHP Script.ricalcolo.php" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="PHP Script.ricalcolo.php" />
@@ -173,6 +180,12 @@
       <workItem from="1640014745085" duration="393000" />
       <workItem from="1641053288130" duration="1119000" />
       <workItem from="1641142121526" duration="1609000" />
+      <workItem from="1641143768297" duration="88000" />
+      <workItem from="1641144132650" duration="728000" />
+      <workItem from="1641366220192" duration="8000" />
+      <workItem from="1643620259161" duration="6383000" />
+      <workItem from="1643638328476" duration="3090000" />
+      <workItem from="1643643615217" duration="522000" />
     </task>
     <servers />
   </component>
@@ -194,57 +207,20 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/ricalcolo.php</url>
-          <line>184</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/ricalcolo.php</url>
-          <line>187</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
-          <line>261</line>
+          <line>280</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php</url>
-          <line>104</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/ricalcolo.php</url>
-          <line>83</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php</url>
-          <line>126</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php</url>
-          <line>129</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
-          <line>148</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
-          <line>180</line>
-          <option name="timeStamp" value="14" />
+          <line>135</line>
+          <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PhpLocalRunConfigurationType">
-        <watch expression="$situazioni['1073299']" language="PHP" />
-        <watch expression="$start-&gt;format('Y')" language="PHP" />
-        <watch expression="$logger" />
+        <watch expression="$situazioni['1125992']" language="PHP" />
       </configuration>
     </watches-manager>
   </component>

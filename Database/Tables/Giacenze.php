@@ -178,12 +178,31 @@
                 }
                 
                 //ora faccio la join con la tabella di ricalcolo per inserire solo i record modificati
-                $sql = "insert into $this->tableRicalcolo select g.*
+                /*$sql = "insert into $this->tableRicalcolo select g.*
                         from `$tempTableName` as g
                         left join (select * from (select g.anno, g.data, g.codice, g.negozio, g.giacenza from $this->tableRicalcolo as g join (select g.`codice`, g.`negozio`, max(g.`data`) `data` 
                         from $this->tableRicalcolo as g where g.negozio not in ('SMBB','SMMD') group by 1,2) as d on g.codice=d.codice and g.negozio=d.negozio and g.data=d.data
                         order by g.codice, lpad(SUBSTR(g.negozio,3),2,'0')) as g) as t on g.`anno`=t.`anno` and g.`codice`=t.`codice` and g.`giacenza`=t.`giacenza` and g.`negozio`=t.`negozio`
-                        where t.`anno` is null";
+                        where t.`anno` is null";*/
+
+                $sql = "insert into db_sm.giacenzeRicalcolo select a.* from 
+                    (select 
+                        anno, 
+                        data, 
+                        codice, 
+                        negozio, 
+                        giacenza 
+                    from db_sm.giacenzeTemp where negozio not in ('SMBB','SMMD','SMW1')) as a left join
+                    (select 
+                        gRic.anno, 
+                        gRic.data, 
+                        gRic.codice, 
+                        gRic.negozio, 
+                        gRic.giacenza 
+                    from db_sm.giacenzeRicalcolo as gRic join (select codice, negozio, max(data) data from db_sm.giacenzeRicalcolo where negozio not in ('SMBB','SMMD','SMW1') group by 1,2) gMax on
+                    gMax.codice=gRic.codice and gMax.negozio=gRic.negozio and gMax.data=gRic.data order by gRic.codice, lpad(SUBSTR(gRic.negozio,3),2,'0')) as b 
+                    on a.codice=b.codice and a.negozio=b.negozio 
+                    where b.anno is null";
                         
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute(); 
