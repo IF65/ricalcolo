@@ -56,12 +56,9 @@
             }
         }
         
-        public function elencoSediDaInviare($data, $codiceIncarico) {
+        public function elencoSediDaInviare($data) {
              try {
-                $sql = "select n.codice_interno, c.vuoto
-                        from lavori.incarichi as i join archivi.negozi as n on n.codice=i.`negozio_codice` left join db_sm.logCaricamento as c on c.`sede`=n.`codice_interno` and c.`data`=i.`data`
-                        where i.`lavoro_codice` = $codiceIncarico and i.data = '$data' and c.`sede` is not null
-                        order by lpad(substr(n.codice_interno,3),2,'0')";
+                $sql = "select n.codice_interno, 1 vuoto from lavori.incarichi as i join archivi.negozi as n on n.codice=i.negozio_codice where i.data='$data' and i.lavoro_codice = 230";
                         
 				$stmt = $this->pdo->prepare($sql);
                 if ($stmt->execute()) {

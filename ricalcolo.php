@@ -13,7 +13,8 @@ use Database\Tables\Diversi;
 
 // impostazioni debug
 //--------------------------------------------------------------------------------
-$codiceArticoloAnalizzato = '';
+$codiceArticoloAnalizzato = '';//'1073217'; //'1125992';
+$codiceNegozioAnalizzato = '';
 
 // creazione ogetti
 //--------------------------------------------------------------------------------
@@ -50,12 +51,12 @@ $range = new DatePeriod($start, $interval, $end);*/
 sleep(3);
 if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 	// carico le giacenze iniziali
-	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y')]);
+	$situazioni = $giacenzeIniziali->ricerca(['anno_attivo' => $start->format('Y'), 'codice' => $codiceArticoloAnalizzato, 'negozio' => $codiceNegozioAnalizzato]);
 	foreach ($range as $date) {
 		echo $date->format('Y-m-d') . "\n";
 
 		// carico gli arrivi
-		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d')]); //, 'codice' => $codiceArticoloAnalizzato
+		$elencoArrivi = $arrivi->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato, 'negozio' => $codiceNegozioAnalizzato]);
 		foreach ($elencoArrivi as $codice => $arrivo) {
 			if (!key_exists($codice, $situazioni)) {
 				$situazioni[$codice] = [];
@@ -71,7 +72,7 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		unset($elencoArrivi);
 
 		// carico i trasferimenti in ingresso
-		$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d')]);
+		$elencoTrasferimentiIn = $trasferimentiIn->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato, 'negozio' => $codiceNegozioAnalizzato]);
 		foreach ($elencoTrasferimentiIn as $codice => $trasferimento) {
 			if (!key_exists($codice, $situazioni)) {
 				$situazioni[$codice] = [];
@@ -87,7 +88,7 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		unset($elencoTrasferimentiIn);
 
 		// carico/scarico i diversi
-		$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d')]);
+		$elencoDiversi = $diversi->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato, 'negozio' => $codiceNegozioAnalizzato]);
 		foreach ($elencoDiversi as $codice => $diverso) {
 			if (!key_exists($codice, $situazioni)) {
 				$situazioni[$codice] = [];
@@ -102,7 +103,7 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		unset($elencoDiversi);
 
 		// scarico i trasferimenti in uscita
-		$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d')]);
+		$elencoTrasferimentiOut = $trasferimentiOut->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato, 'negozio' => $codiceNegozioAnalizzato]);
 		foreach ($elencoTrasferimentiOut as $codice => $trasferimento) {
 			if (!key_exists($codice, $situazioni)) {
 				$situazioni[$codice] = [];
@@ -118,7 +119,7 @@ if ($giacenze->creaTabellaGiacenzePerRicalcolo()) {
 		unset($elencoTrasferimentiOut);
 
 		// scarico le vendite
-		$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d')]);
+		$elencoVendite = $vendite->movimenti(["data" => $date->format('Y-m-d'), 'codice' => $codiceArticoloAnalizzato, 'negozio' => $codiceNegozioAnalizzato]);
 		foreach ($elencoVendite as $codice => $vendita) {
 			if (!key_exists($codice, $situazioni)) {
 				$situazioni[$codice] = [];

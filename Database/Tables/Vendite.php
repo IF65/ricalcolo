@@ -199,7 +199,7 @@
                     $negozio = $record['negozio'];
                     $sql .= " and negozio = '$negozio'"; 
                 }
-                if (key_exists('codice', $record)) {
+                if (key_exists('codice', $record) && $record['codice'] != '') {
                     $codice = $record['codice'];
                     $sql .= " and codice = '$codice'";
                 }

@@ -63,9 +63,9 @@
                         where t.`data` = '$data'";
                 if (key_exists('negozio', $record)) {
                     $negozio = $record['negozio'];
-                    $sql .= " and a.negozio = '$negozio'"; 
+                    $sql .= " and t.negozio_partenza = '$negozio'";
                 }
-                if (key_exists('codice', $record)) {
+                if (key_exists('codice', $record) && $record['codice'] != '') {
                     $codice = $record['codice'];
                     $sql .= " and r.codice = '$codice'";
                 }

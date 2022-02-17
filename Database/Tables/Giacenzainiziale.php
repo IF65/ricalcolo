@@ -103,7 +103,7 @@
         public function ricerca($record) {
              try {
                 $sql = "select codice, upper(negozio) `negozio`, giacenza from $this->tableName where anno_attivo = :anno_attivo";
-                if (key_exists('codice', $record)) {
+                if (key_exists('codice', $record) && $record['codice'] != '') {
                     $codice = $record['codice'];
                     $sql .= " and codice = '$codice'";
                 }

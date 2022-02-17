@@ -2,32 +2,6 @@
 @ini_set('memory_limit', '1024M');
 
 include(__DIR__ . '/Database/bootstrap.php');
-include(__DIR__ . '/vendor/apache/log4php/src/main/php/Logger.php');
-
-$logConfig = [
-	'appenders' => [
-		'default' => [
-			'class' => 'LoggerAppenderPDO',
-			'params' => [
-				'dsn' => 'mysql:host=10.11.14.78;dbname=log',
-				'user' => 'root',
-				'password' => 'mela',
-				'table' => 'logPhpScript',
-			],
-		],
-	],
-	'rootLogger' => [
-		'level' => 'debug',
-		'appenders' => [
-			'default'
-		],
-	],
-];
-
-Logger::configure($logConfig);
-$logger = Logger::getLogger("invioDati");
-
-$logger->info("Inizio procedura di invio dati a Gre/Copre.");
 
 use Database\Tables\Giacenze;
 use Database\Tables\Vendite;
@@ -36,7 +10,7 @@ use Database\Views\Barcode;
 
 // creazione cartelle
 //--------------------------------------------------------------------------------
-$cartellaDiInvio = '/gre/file_da_inviare';
+$cartellaDiInvio = '/Users/if65/Desktop/gre/file_da_inviare';
 if (!file_exists($cartellaDiInvio)) {
 	mkdir($cartellaDiInvio, 0777, true);
 }
@@ -47,7 +21,6 @@ $giacenze = new Giacenze($sqlDetails);
 $vendite = new Vendite($sqlDetails);
 $barcodeCopre = new Barcode($sqlDetails);
 $log = new Log($sqlDetails);
-$logger->info("Oggetti creati.");
 
 $articoliNascosti = $giacenze->getHiddenArticles();
 
@@ -55,18 +28,16 @@ $articoliNascosti = $giacenze->getHiddenArticles();
 //--------------------------------------------------------------------------------
 $timeZone = new DateTimeZone('Europe/Rome');
 
-$dataCorrente = (new DateTime())->setTimezone($timeZone);
+$dataCorrente = new DateTime();
+
+$dataFinale = (clone $dataCorrente)->setTimezone($timeZone)->sub(new DateInterval('P1D'));
+$dataIniziale = (clone $dataFinale)->setTimezone($timeZone)->sub(new DateInterval('P2D'));
+$data = clone $dataIniziale;
 
 $elencoBarcodeCopre = $barcodeCopre->creaElenco();
-
-$elencoDateDaInviare = $log->elencoGiornateDaInviare(210); //200 = INVIO VENDITE COPRE, 210 = INVIO VENDITE GRE
-
-$logger->info("(210) INVIO VENDITE GRE, date da inviare: " . count($elencoDateDaInviare));
-foreach ($elencoDateDaInviare as $dataDaInviare) {
-	$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
-	$elencoSediDaInviare = $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 210);
-	$vendutoAllaData = $vendite->esportazioneVenditeGreCopre($dataCalcolo->format('Y-m-d'));
-	$logger->info('(210) ' . $dataCalcolo->format('Y-m-d') . ', sedi: ' . count($elencoSediDaInviare));
+while ($data->format('Ymd') <= $dataFinale->format('Ymd')) {
+	$elencoSediDaInviare = $log->elencoSediDaInviare($data->format('Y-m-d'), 210);
+	$vendutoAllaData = $vendite->esportazioneVenditeGreCopre($data->format('Y-m-d'));
 
 	$negozioOld = '';
 	$scontrinoOld = 0;
@@ -99,9 +70,6 @@ foreach ($elencoDateDaInviare as $dataDaInviare) {
 	// scrittura righe
 	$righe = [];
 	foreach ($vendutoAllaData as $vendita) {
-		if ($vendita['codice'] == "1125992") {
-			echo "\n";
-		}
 		if (array_key_exists($vendita['negozio'], $elencoSediDaInviare)) {
 			$costo = $vendita['costo_ultimo'] * 1;
 			if ($costo == 0.0) {
@@ -116,9 +84,8 @@ foreach ($elencoDateDaInviare as $dataDaInviare) {
 				}
 
 				if ($negozioOld != $vendita['negozio']) {
-					$logger->debug('(210) ' . $dataCalcolo->format('Y-m-d') . ', vendite negozio inviate: ' . $negozioOld);
-					if (!$log->incaricoOk($vendita['negozio'], $dataCalcolo->format('Y-m-d'), 210)) {
-						$logger->warn('(210) ' . $dataCalcolo->format('Y-m-d') . ', flag inviate vendite negozio non impostato: ' . $negozioOld);
+					if (!$log->incaricoOk($vendita['negozio'], $data->format('Y-m-d'), 210)) {
+
 					}
 				}
 
@@ -144,7 +111,7 @@ foreach ($elencoDateDaInviare as $dataDaInviare) {
 				$mainBarcode = $elencoBarcodeCopre[$vendita['codice']];
 			}
 			//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
-			$riga .= $dataCorrente->format('dmY 00:00') . '|' . $dataCalcolo->format('dmY') . '|';
+			$riga .= $dataCorrente->format('dmY H:i') . '|' . $data->format('dmY') . '|';
 			$riga .= $vendita['ora'] . "|";
 			$riga .= $vendita['numero_upb'] . "|";
 			$riga .= $vendita['numero'] . "|||";
@@ -175,76 +142,63 @@ foreach ($elencoDateDaInviare as $dataDaInviare) {
 	}
 
 	// ha valore 1 se la giornata � vuota
-	foreach ($elencoSediDaInviare as $sede => $vuota) {
+	/*foreach ($elencoSediDaInviare as $sede => $vuota) {
 		if ($vuota) {
 			$riga = '';
-			$riga .= $dataCorrente->format('dmY H:i') . '|' . $dataCalcolo->format('dmY') . '|';
+			$riga .= $data->format('dmY H:i') . '|' . $data->format('dmY') . '|';
 			$riga .= $vendita['ora'] . "|";
 			$riga .= "9999|9999|||" . $sede . "|SUPERMEDIA|02147260174|||||||||DET|0,01|0,01|0,01|0|0|0|0|0|0|0|0|1||2999999999999|6672941|SAMSUNG|1GB EGOKIT|1|0,01|0|0,01|0,01|VEN||0\r\n";
 			$righe[] = $riga;
 
-			$log->incaricoOk($sede, $dataCalcolo->format('Y-m-d'), 210);
-			$logger->debug('(210) ' . $dataCalcolo->format('Y-m-d') . ', negozio inviato: ' . $sede . ', vendite: 0');
+			$log->incaricoOk($sede, $data->format('Y-m-d'), 210);
 		}
-	}
+	}*/
 
-	$nome_file = 'SO_02147260174_SM_' . $dataCalcolo->format('Ymd') . '.txt';
+	$nome_file = 'SO_02147260174_SM_' . $data->format('Ymd') . '.txt';
 	file_put_contents("$cartellaDiInvio/$nome_file", $righe);
-	$logger->debug('(210) ' . $dataCalcolo->format('Y-m-d') . ', file inviato');
+
+	$data->add(new DateInterval('P1D'));
 }
 
-$elencoDateDaInviare = $log->elencoGiornateDaInviare(230); //220 = INVIO GIACENZE COPRE, 230 = INVIO GIACENZE GRE
-$logger->info("(230) INVIO GIACENZE GRE, date da inviare: " . count($elencoDateDaInviare));
-foreach ($elencoDateDaInviare as $dataDaInviare) {
-	$dataCalcolo = (new DateTime($dataDaInviare['data']))->setTimezone($timeZone);
-	$giacenzeAllaData = $giacenze->giacenzeAllaDataGreCopre($dataCalcolo->format('Y-m-d'));
-	$elencoSediDaInviare = $log->elencoSediDaInviare($dataCalcolo->format('Y-m-d'), 230);
-	$logger->info('(230) ' . $dataCalcolo->format('Y-m-d') . ', sedi: ' . count($elencoSediDaInviare));
+$data = (clone $dataCorrente)->setTimezone($timeZone)->sub(new DateInterval('P1D'));
 
-	$righe = [];
-	foreach ($giacenzeAllaData as $codiceNegozio => $recordNegozio) {
+$giacenzeSM = $giacenze->giacenzeSM();
 
+$righe = [];
+foreach ($giacenzeSM as $codiceNegozio => $recordNegozio) {
+	foreach ($recordNegozio as $codiceArticolo => $recordArticolo) {
 
-		if (array_key_exists($codiceNegozio, $elencoSediDaInviare)) {
-			$logger->debug('(230) ' . $dataCalcolo->format('Y-m-d') . ', invio stock negozio: ' . $codiceNegozio . ', articoli: ' . count($recordNegozio));
-			foreach ($recordNegozio as $codiceArticolo => $recordArticolo) {
-
-				$giacenza = $recordArticolo['giacenza'];
-				if (key_exists($codiceArticolo, $articoliNascosti)) {
-					$giacenza = 0;
-				}
-
-				// inserisco il barcode principale di copre
-				$mainBarcode = $recordArticolo['ean'];
-				if (key_exists($codiceArticolo, $elencoBarcodeCopre)) {
-					$mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
-				}
-
-				$riga = '';
-				//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
-				$riga .= $dataCorrente->format('dmY 00:00') . '|' . $dataCalcolo->format('dmY') . '|';
-				$riga .= 'SUPERMEDIA|02147260174|';
-				$riga .= $codiceNegozio . "||";
-				$riga .= $mainBarcode . "|";
-				$riga .= $codiceArticolo . "|";
-				$riga .= $recordArticolo['linea'] . "|";
-				$riga .= $recordArticolo['modello'] . "|";
-				$riga .= "$giacenza|$giacenza|0||0,00\r\n";
-
-				$righe[] = $riga;
-			}
-			if (!$log->incaricoOk($codiceNegozio, $dataCalcolo->format('Y-m-d'), 230)) {
-				$logger->warn('(230) ' . $dataCalcolo->format('Y-m-d') . ', flag inviato stock negozio non impostato: ' . $codiceNegozio);
-			}
+		$giacenza = $recordArticolo['giacenza'];
+		if (key_exists($codiceArticolo, $articoliNascosti)) {
+			$giacenza = 0;
 		}
+
+		// inserisco il barcode principale di copre
+		$mainBarcode = $recordArticolo['ean'];
+		if (key_exists($codiceArticolo, $elencoBarcodeCopre)) {
+			$mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
+		}
+
+		$riga = '';
+		//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
+		$riga .= $dataCorrente->format('dmY 00:00') . '|' . $data->format('dmY') . '|';
+		$riga .= 'SUPERMEDIA|02147260174|';
+		$riga .= $codiceNegozio . "||";
+		$riga .= $mainBarcode . "|";
+		$riga .= $codiceArticolo . "|";
+		$riga .= $recordArticolo['linea'] . "|";
+		$riga .= $recordArticolo['modello'] . "|";
+		$riga .= "$giacenza|$giacenza|0||0,00\r\n";
+
+		$righe[] = $riga;
 	}
-
-	$nome_file = 'ST_02147260174_SM_' . $dataCalcolo->format('Ymd') . '.txt';
-	file_put_contents("$cartellaDiInvio/$nome_file", $righe);
-	$logger->debug('(230) ' . $dataCalcolo->format('Y-m-d') . ', file inviato');
-
-	// creazione semaforo verde
-	touch("$cartellaDiInvio/CO_02147260174_SM.txt");
-
 }
+
+$nome_file = 'ST_02147260174_SM_' . $data->format('Ymd') . '.txt';
+file_put_contents("$cartellaDiInvio/$nome_file", $righe);
+
+// creazione semaforo verde
+touch("$cartellaDiInvio/CO_02147260174_SM.txt");
+
+
 	
