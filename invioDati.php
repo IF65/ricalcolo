@@ -10,7 +10,7 @@ use Database\Views\Barcode;
 
 // creazione cartelle
 //--------------------------------------------------------------------------------
-$cartellaDiInvio = '/Users/if65/Desktop/gre/file_da_inviare';
+$cartellaDiInvio = '/gre/file_da_inviare';
 if (!file_exists($cartellaDiInvio)) {
 	mkdir($cartellaDiInvio, 0777, true);
 }

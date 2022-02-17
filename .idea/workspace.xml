@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/caricamentoSituazioni.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/creazione_situazioni.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ricalcolo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ricalcolo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Arrivi.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Arrivi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Diversi.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Diversi.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenzainiziale.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Trasferimentiin.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Trasferimentiin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Trasferimentiout.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Trasferimentiout.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/Tables/Vendite.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Vendite.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ricalcolo.php" beforeDir="false" afterPath="$PROJECT_DIR$/ricalcolo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +214,7 @@
       <workItem from="1643737447604" duration="465000" />
       <workItem from="1643788845889" duration="103000" />
       <workItem from="1645091802180" duration="12224000" />
-      <workItem from="1645125770399" duration="2929000" />
+      <workItem from="1645125770399" duration="3262000" />
     </task>
     <servers />
   </component>
