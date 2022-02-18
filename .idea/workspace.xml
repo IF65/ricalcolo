@@ -216,7 +216,7 @@
       <workItem from="1643788845889" duration="103000" />
       <workItem from="1645091802180" duration="12224000" />
       <workItem from="1645125770399" duration="3417000" />
-      <workItem from="1645146129944" duration="792000" />
+      <workItem from="1645146129944" duration="1348000" />
     </task>
     <servers />
   </component>
@@ -241,11 +241,6 @@
           <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
           <line>287</line>
           <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/invioDati.php</url>
-          <line>171</line>
-          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

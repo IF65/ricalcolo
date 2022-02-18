@@ -28,7 +28,7 @@ $articoliNascosti = $giacenze->getHiddenArticles();
 //--------------------------------------------------------------------------------
 $timeZone = new DateTimeZone('Europe/Rome');
 
-$dataCorrente = new DateTime();
+$dataCorrente = (new DateTime())->setTimezone($timeZone);
 
 $dataFinale = (clone $dataCorrente)->setTimezone($timeZone)->sub(new DateInterval('P1D'));
 $dataIniziale = (clone $dataFinale)->setTimezone($timeZone)->sub(new DateInterval('P2D'));
@@ -141,21 +141,8 @@ while ($data->format('Ymd') <= $dataFinale->format('Ymd')) {
 		}
 	}
 
-	// ha valore 1 se la giornata � vuota
-	/*foreach ($elencoSediDaInviare as $sede => $vuota) {
-		if ($vuota) {
-			$riga = '';
-			$riga .= $data->format('dmY H:i') . '|' . $data->format('dmY') . '|';
-			$riga .= $vendita['ora'] . "|";
-			$riga .= "9999|9999|||" . $sede . "|SUPERMEDIA|02147260174|||||||||DET|0,01|0,01|0,01|0|0|0|0|0|0|0|0|1||2999999999999|6672941|SAMSUNG|1GB EGOKIT|1|0,01|0|0,01|0,01|VEN||0\r\n";
-			$righe[] = $riga;
-
-			$log->incaricoOk($sede, $data->format('Y-m-d'), 210);
-		}
-	}*/
-
 	$nome_file = 'SO_02147260174_SM_' . $data->format('Ymd') . '.txt';
-	//file_put_contents("$cartellaDiInvio/$nome_file", $righe);
+	file_put_contents("$cartellaDiInvio/$nome_file", $righe);
 
 	$data->add(new DateInterval('P1D'));
 }
@@ -181,10 +168,9 @@ foreach ($giacenzeSM as $codiceNegozio => $recordNegozio) {
 			}
 
 			$riga = '';
-			//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
-			$riga .= $dataCorrente->format('dmY 00:48') . '|' . $data->format('dmY') . '|';
+			$riga .= $dataCorrente->format('dmY H:i') . '|' . $data->format('dmY') . '|';
 			$riga .= 'SUPERMEDIA|02147260174|';
-			$riga .= $codiceNegozio . "||";
+			$riga .= strtoupper($codiceNegozio) . "||";
 			$riga .= $mainBarcode . "|";
 			$riga .= $codiceArticolo . "|";
 			$riga .= $recordArticolo['linea'] . "|";
