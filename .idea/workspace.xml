@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -214,7 +215,8 @@
       <workItem from="1643737447604" duration="465000" />
       <workItem from="1643788845889" duration="103000" />
       <workItem from="1645091802180" duration="12224000" />
-      <workItem from="1645125770399" duration="3262000" />
+      <workItem from="1645125770399" duration="3417000" />
+      <workItem from="1645146129944" duration="792000" />
     </task>
     <servers />
   </component>
@@ -239,6 +241,11 @@
           <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
           <line>287</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/invioDati.php</url>
+          <line>171</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

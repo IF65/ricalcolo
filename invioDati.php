@@ -155,7 +155,7 @@ while ($data->format('Ymd') <= $dataFinale->format('Ymd')) {
 	}*/
 
 	$nome_file = 'SO_02147260174_SM_' . $data->format('Ymd') . '.txt';
-	file_put_contents("$cartellaDiInvio/$nome_file", $righe);
+	//file_put_contents("$cartellaDiInvio/$nome_file", $righe);
 
 	$data->add(new DateInterval('P1D'));
 }
@@ -166,34 +166,35 @@ $giacenzeSM = $giacenze->giacenzeSM();
 
 $righe = [];
 foreach ($giacenzeSM as $codiceNegozio => $recordNegozio) {
-	foreach ($recordNegozio as $codiceArticolo => $recordArticolo) {
+	if ($codiceNegozio != 'SMMD' && $codiceNegozio != '') {
+		foreach ($recordNegozio as $codiceArticolo => $recordArticolo) {
 
-		$giacenza = $recordArticolo['giacenza'];
-		if (key_exists($codiceArticolo, $articoliNascosti)) {
-			$giacenza = 0;
+			$giacenza = $recordArticolo['giacenza'];
+			if (key_exists($codiceArticolo, $articoliNascosti)) {
+				$giacenza = 0;
+			}
+
+			// inserisco il barcode principale di copre
+			$mainBarcode = $recordArticolo['ean'];
+			if (key_exists($codiceArticolo, $elencoBarcodeCopre)) {
+				$mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
+			}
+
+			$riga = '';
+			//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
+			$riga .= $dataCorrente->format('dmY 00:48') . '|' . $data->format('dmY') . '|';
+			$riga .= 'SUPERMEDIA|02147260174|';
+			$riga .= $codiceNegozio . "||";
+			$riga .= $mainBarcode . "|";
+			$riga .= $codiceArticolo . "|";
+			$riga .= $recordArticolo['linea'] . "|";
+			$riga .= $recordArticolo['modello'] . "|";
+			$riga .= "$giacenza|$giacenza|0||0,00\r\n";
+
+			$righe[] = $riga;
 		}
-
-		// inserisco il barcode principale di copre
-		$mainBarcode = $recordArticolo['ean'];
-		if (key_exists($codiceArticolo, $elencoBarcodeCopre)) {
-			$mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
-		}
-
-		$riga = '';
-		//$riga .= $dataCorrente->format('dmY H:i').'|'.$dataCalcolo->format('dmY').'|';
-		$riga .= $dataCorrente->format('dmY 00:00') . '|' . $data->format('dmY') . '|';
-		$riga .= 'SUPERMEDIA|02147260174|';
-		$riga .= $codiceNegozio . "||";
-		$riga .= $mainBarcode . "|";
-		$riga .= $codiceArticolo . "|";
-		$riga .= $recordArticolo['linea'] . "|";
-		$riga .= $recordArticolo['modello'] . "|";
-		$riga .= "$giacenza|$giacenza|0||0,00\r\n";
-
-		$righe[] = $riga;
 	}
 }
-
 $nome_file = 'ST_02147260174_SM_' . $data->format('Ymd') . '.txt';
 file_put_contents("$cartellaDiInvio/$nome_file", $righe);
 
