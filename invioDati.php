@@ -160,24 +160,25 @@ foreach ($giacenzeSM as $codiceNegozio => $recordNegozio) {
 			if (key_exists($codiceArticolo, $articoliNascosti)) {
 				$giacenza = 0;
 			}
+			if ($giacenza > 0) {
+				// inserisco il barcode principale di copre
+				$mainBarcode = $recordArticolo['ean'];
+				if (key_exists($codiceArticolo, $elencoBarcodeCopre)) {
+					$mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
+				}
 
-			// inserisco il barcode principale di copre
-			$mainBarcode = $recordArticolo['ean'];
-			if (key_exists($codiceArticolo, $elencoBarcodeCopre)) {
-				$mainBarcode = $elencoBarcodeCopre[$codiceArticolo];
+				$riga = '';
+				$riga .= $dataCorrente->format('dmY H:i') . '|' . $data->format('dmY') . '|';
+				$riga .= 'SUPERMEDIA|02147260174|';
+				$riga .= strtoupper($codiceNegozio) . "||";
+				$riga .= $mainBarcode . "|";
+				$riga .= $codiceArticolo . "|";
+				$riga .= $recordArticolo['linea'] . "|";
+				$riga .= $recordArticolo['modello'] . "|";
+				$riga .= "$giacenza|$giacenza|0||0,00\r\n";
+
+				$righe[] = $riga;
 			}
-
-			$riga = '';
-			$riga .= $dataCorrente->format('dmY H:i') . '|' . $data->format('dmY') . '|';
-			$riga .= 'SUPERMEDIA|02147260174|';
-			$riga .= strtoupper($codiceNegozio) . "||";
-			$riga .= $mainBarcode . "|";
-			$riga .= $codiceArticolo . "|";
-			$riga .= $recordArticolo['linea'] . "|";
-			$riga .= $recordArticolo['modello'] . "|";
-			$riga .= "$giacenza|$giacenza|0||0,00\r\n";
-
-			$righe[] = $riga;
 		}
 	}
 }

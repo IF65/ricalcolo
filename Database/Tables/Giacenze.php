@@ -253,40 +253,42 @@ class Giacenze extends Database
 
 	public function caricaGiacenzeCorrentiDaSituazioniSuServerSM(string $request)
 	{
-		$sql = "DROP TABLE db_sm.giacenze_correnti_sm ;";
-		$stmt = $this->pdo->prepare($sql);
-		$stmt->execute();
+		$rows = json_decode($request, true);
 
-		$sql = "CREATE TABLE db_sm.giacenze_correnti_sm (
+		if(count($rows)>100000) {
+			$sql = "DROP TABLE db_sm.giacenze_correnti_sm ;";
+			$stmt = $this->pdo->prepare($sql);
+			$stmt->execute();
+
+			$sql = "CREATE TABLE db_sm.giacenze_correnti_sm (
                       `codice` varchar(7) NOT NULL DEFAULT '',
                       `negozio` varchar(4) NOT NULL DEFAULT '',
                       `giacenza` float NOT NULL DEFAULT '0',
                       PRIMARY KEY (`codice`,`negozio`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-		$stmt = $this->pdo->prepare($sql);
-		$stmt->execute();
+			$stmt = $this->pdo->prepare($sql);
+			$stmt->execute();
 
-		$values = [];
-		$counter = 1;
-		$rows = json_decode($request, true);
-		foreach ($rows as $row) {
-			$values[] = "('" . $row['code'] . "','" . $row['store'] . "'," . $row['quantity'] . ")";
-			if ($counter == 1000) {
-				$sql = "insert into db_sm.giacenze_correnti_sm (codice, negozio, giacenza) VALUES\n";
-				$sql .= implode(",", $values);
-				$stmt = $this->pdo->prepare($sql);
-				$stmt->execute();
+			$values = [];
+			$counter = 1;
+			foreach ($rows as $row) {
+				$values[] = "('" . $row['code'] . "','" . $row['store'] . "'," . $row['quantity'] . ")";
+				if ($counter == 1000) {
+					$sql = "insert into db_sm.giacenze_correnti_sm (codice, negozio, giacenza) VALUES\n";
+					$sql .= implode(",", $values);
+					$stmt = $this->pdo->prepare($sql);
+					$stmt->execute();
 
-				$values = [];
-				$counter = 0;
+					$values = [];
+					$counter = 0;
+				}
+				$counter++;
 			}
-			$counter++;
+			$sql = "insert into db_sm.giacenze_correnti_sm (codice, negozio, giacenza) VALUES\n";
+			$sql .= implode(",", $values);
+			$stmt = $this->pdo->prepare($sql);
+			$stmt->execute();
 		}
-		$sql = "insert into db_sm.giacenze_correnti_sm (codice, negozio, giacenza) VALUES\n";
-		$sql .= implode(",", $values);
-		$stmt = $this->pdo->prepare($sql);
-		$stmt->execute();
-
 	}
 
 	public function giacenzeAllaDataGreCopre($dataCalcolo)
@@ -361,8 +363,8 @@ class Giacenze extends Database
 
 	public function giacenzeSM()
 	{
-		$sql = "select g.negozio, ifnull(e.ean,'2999999999999') ean, g.codice, mr.marca `linea`, m.modello, g.giacenza from db_sm.giacenze_correnti_sm as g left join (select codice, max(ean) ean from db_sm.ean group by 1) as e on g.codice= e.codice join db_sm.magazzino as m on g.codice = m.codice join db_sm.marche as mr on m.linea = mr.linea
-where m.`giacenza_bloccata` = 0 and m.`invio_gre` = 1 and mr.`invio_gre` = 1 and m.linea not like 'SUPERMEDIA%' and g.giacenza <> 0 
+		$sql = "select upper(g.negozio) negozio, ifnull(e.ean,'2999999999999') ean, g.codice, upper(mr.marca) `linea`, upper(m.modello) modello, g.giacenza from db_sm.giacenze_correnti_sm as g left join (select codice, max(ean) ean from db_sm.ean group by 1) as e on g.codice= e.codice join db_sm.magazzino as m on g.codice = m.codice join db_sm.marche as mr on m.linea = mr.linea
+where m.`giacenza_bloccata` = 0 and m.`invio_gre` = 1 and mr.`invio_gre` = 1 and m.linea not like 'SUPERMEDIA%' and g.giacenza <> 0 and g.negozio <> ''
 order by lpad(SUBSTR(g.negozio, 3), 2, '0'), g.codice;";
 
 		try {
