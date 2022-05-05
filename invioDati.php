@@ -10,7 +10,7 @@ use Database\Views\Barcode;
 
 // creazione cartelle
 //--------------------------------------------------------------------------------
-$cartellaDiInvio = '/gre/file_da_inviare';
+$cartellaDiInvio = '/Users/if65/Desktop/gre/file_da_inviare';
 if (!file_exists($cartellaDiInvio)) {
 	mkdir($cartellaDiInvio, 0777, true);
 }
@@ -153,7 +153,7 @@ $giacenzeSM = $giacenze->giacenzeSM();
 
 $righe = [];
 foreach ($giacenzeSM as $codiceNegozio => $recordNegozio) {
-	if ($codiceNegozio != 'SMMD' && $codiceNegozio != '') {
+	if ($codiceNegozio != 'SMMD' && $codiceNegozio != 'SMW1' && $codiceNegozio != '') {
 		foreach ($recordNegozio as $codiceArticolo => $recordArticolo) {
 
 			$giacenza = $recordArticolo['giacenza'];

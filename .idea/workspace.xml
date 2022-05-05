@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/Tables/Giacenze.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Giacenze.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
@@ -65,23 +66,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="PHP" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.deploy.options" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/if65/Desktop/progetti/ricalcolo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="/script" />
@@ -90,7 +85,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="PHP Script.invioDati.php">
+  <component name="RunManager" selected="PHP Script.caricamentoSituazioni.php">
     <configuration name="caricamentoSituazioni.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/caricamentoSituazioni.php">
       <method v="2" />
     </configuration>
@@ -107,8 +102,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHP Script.invioDati.php" />
         <item itemvalue="PHP Script.caricamentoSituazioni.php" />
+        <item itemvalue="PHP Script.invioDati.php" />
         <item itemvalue="PHP Script.ricalcolo.php" />
       </list>
     </recent_temporary>
@@ -224,7 +219,19 @@
       <workItem from="1645508379665" duration="252000" />
       <workItem from="1645512419419" duration="1152000" />
       <workItem from="1645517619353" duration="8000" />
-      <workItem from="1645519863741" duration="13000" />
+      <workItem from="1645519863741" duration="212000" />
+      <workItem from="1645536920709" duration="92000" />
+      <workItem from="1645542055266" duration="48000" />
+      <workItem from="1645546257355" duration="58000" />
+      <workItem from="1646067045627" duration="89000" />
+      <workItem from="1646142973835" duration="5000" />
+      <workItem from="1646877350878" duration="1301000" />
+      <workItem from="1647352715035" duration="24000" />
+      <workItem from="1647353386265" duration="105000" />
+      <workItem from="1647353512039" duration="510000" />
+      <workItem from="1647421713616" duration="1142000" />
+      <workItem from="1647438092595" duration="1000" />
+      <workItem from="1651761779515" duration="1110000" />
     </task>
     <servers />
   </component>

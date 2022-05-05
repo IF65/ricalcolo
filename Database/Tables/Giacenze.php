@@ -255,8 +255,8 @@ class Giacenze extends Database
 	{
 		$rows = json_decode($request, true);
 
-		if(count($rows)>100000) {
-			$sql = "DROP TABLE db_sm.giacenze_correnti_sm ;";
+		if (count($rows) > 100000) {
+			$sql = "DROP TABLE IF EXISTS db_sm.giacenze_correnti_sm ;";
 			$stmt = $this->pdo->prepare($sql);
 			$stmt->execute();
 
@@ -272,7 +272,8 @@ class Giacenze extends Database
 			$values = [];
 			$counter = 1;
 			foreach ($rows as $row) {
-				$values[] = "('" . $row['code'] . "','" . $row['store'] . "'," . $row['quantity'] . ")";
+				$quantity = $row['quantity'] + $row['inOrder'];
+				$values[] = "('" . $row['code'] . "','" . $row['store'] . "'," . $quantity . ")";
 				if ($counter == 1000) {
 					$sql = "insert into db_sm.giacenze_correnti_sm (codice, negozio, giacenza) VALUES\n";
 					$sql .= implode(",", $values);
