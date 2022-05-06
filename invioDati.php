@@ -10,7 +10,7 @@ use Database\Views\Barcode;
 
 // creazione cartelle
 //--------------------------------------------------------------------------------
-$cartellaDiInvio = '/Users/if65/Desktop/gre/file_da_inviare';
+$cartellaDiInvio = '/gre/file_da_inviare';
 if (!file_exists($cartellaDiInvio)) {
 	mkdir($cartellaDiInvio, 0777, true);
 }
@@ -31,7 +31,7 @@ $timeZone = new DateTimeZone('Europe/Rome');
 $dataCorrente = (new DateTime())->setTimezone($timeZone);
 
 $dataFinale = (clone $dataCorrente)->setTimezone($timeZone)->sub(new DateInterval('P1D'));
-$dataIniziale = (clone $dataFinale)->setTimezone($timeZone)->sub(new DateInterval('P2D'));
+$dataIniziale = (clone $dataFinale)->setTimezone($timeZone)->sub(new DateInterval('P3D'));
 $data = clone $dataIniziale;
 
 $elencoBarcodeCopre = $barcodeCopre->creaElenco();
