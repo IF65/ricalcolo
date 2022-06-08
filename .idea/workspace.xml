@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/Tables/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/Tables/Log.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +84,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="PHP Script.caricamentoSituazioni.php">
+  <component name="RunManager" selected="PHP Script.invioDati.php">
     <configuration name="caricamentoSituazioni.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/caricamentoSituazioni.php">
       <method v="2" />
     </configuration>
@@ -101,8 +101,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHP Script.caricamentoSituazioni.php" />
         <item itemvalue="PHP Script.invioDati.php" />
+        <item itemvalue="PHP Script.caricamentoSituazioni.php" />
         <item itemvalue="PHP Script.ricalcolo.php" />
       </list>
     </recent_temporary>
@@ -232,7 +232,12 @@
       <workItem from="1647438092595" duration="1000" />
       <workItem from="1651761779515" duration="1414000" />
       <workItem from="1651767976363" duration="333000" />
-      <workItem from="1651816399107" duration="213000" />
+      <workItem from="1651816399107" duration="324000" />
+      <workItem from="1651843621508" duration="5000" />
+      <workItem from="1653576634071" duration="379000" />
+      <workItem from="1654264126697" duration="267000" />
+      <workItem from="1654509057385" duration="1000" />
+      <workItem from="1654692968623" duration="414000" />
     </task>
     <servers />
   </component>
@@ -257,6 +262,11 @@
           <url>file://$PROJECT_DIR$/invioDati.php</url>
           <line>153</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/invioDati.php</url>
+          <line>36</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

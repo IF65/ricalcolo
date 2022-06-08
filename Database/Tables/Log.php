@@ -41,7 +41,7 @@
         public function elencoGiornateSediMancanti($data) {
              try {
                 $sql = "select n.codice_interno from archivi.negozi as n left join (select sede from db_sm.logCaricamento where data = '$data') as l on l.`sede`=n.codice_interno
-                        where n.`societa` = '08' and ('$data'<=n.`data_fine` or n.`data_fine` is null) and '$data' >= n.`data_inizio` and l.sede is null
+                        where n.`societa` = '16' and ('$data'<=n.`data_fine` or n.`data_fine` is null) and '$data' >= n.`data_inizio` and l.sede is null
                         order by lpad(substr(n.codice_interno,3),2,'0');";
                             
 				$stmt = $this->pdo->prepare($sql);
