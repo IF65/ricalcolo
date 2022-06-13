@@ -31,7 +31,7 @@ $timeZone = new DateTimeZone('Europe/Rome');
 $dataCorrente = (new DateTime())->setTimezone($timeZone);
 
 $dataFinale = (clone $dataCorrente)->setTimezone($timeZone)->sub(new DateInterval('P1D'));
-$dataIniziale = (clone $dataFinale)->setTimezone($timeZone)->sub(new DateInterval('P3D'));
+$dataIniziale = (clone $dataFinale)->setTimezone($timeZone)->sub(new DateInterval('P7D'));
 $data = clone $dataIniziale;
 
 $elencoBarcodeCopre = $barcodeCopre->creaElenco();
