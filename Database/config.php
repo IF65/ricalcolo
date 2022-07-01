@@ -14,4 +14,4 @@ $sqlDetails = array(
 	"pdoAttr" 	=> array()
 );
 
-?>
+

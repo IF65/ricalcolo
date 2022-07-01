@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08fdc797-29c1-46c0-b939-db5396c83b0f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/Database/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invioDati.php" beforeDir="false" afterPath="$PROJECT_DIR$/invioDati.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -241,7 +243,12 @@
       <workItem from="1654693814779" duration="746000" />
       <workItem from="1654699037238" duration="7000" />
       <workItem from="1655115538990" duration="124000" />
-      <workItem from="1655115835105" duration="8000" />
+      <workItem from="1655115835105" duration="37000" />
+      <workItem from="1655126060599" duration="18000" />
+      <workItem from="1655192368603" duration="10000" />
+      <workItem from="1655719123599" duration="3000" />
+      <workItem from="1656597842526" duration="2089000" />
+      <workItem from="1656653092178" duration="1816000" />
     </task>
     <servers />
   </component>
@@ -263,14 +270,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/invioDati.php</url>
-          <line>153</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
+          <line>258</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/invioDati.php</url>
-          <line>36</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/Database/Tables/Giacenze.php</url>
+          <line>290</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

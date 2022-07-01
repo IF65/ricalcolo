@@ -22,6 +22,10 @@ $vendite = new Vendite($sqlDetails);
 $barcodeCopre = new Barcode($sqlDetails);
 $log = new Log($sqlDetails);
 
+/**
+ * FARE MOLTA ATTENZIONE AGLI ARTICOLI NASCOSTI.
+ * ORA SONO SOLO PIRO E BEZ.
+ */
 $articoliNascosti = $giacenze->getHiddenArticles();
 
 // impostazioni periodo
